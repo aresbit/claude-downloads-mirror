@@ -1,0 +1,16 @@
+{
+  "owner": "aresbit",
+  "repo": "claude-downloads-mirror",
+  "branch": "main",
+  "site_dir": "docs",
+  "source": {
+    "desktop_api": "https://api.anthropic.com/api/desktop",
+    "science_base": "https://downloads.claude.ai/claude-science/latest",
+    "site": "https://downloads.claude.ai"
+  },
+  "release": {
+    "desktop_tag_prefix": "desktop-v",
+    "science_tag_prefix": "science-v",
+    "max_asset_bytes": 2147483648
+  }
+}

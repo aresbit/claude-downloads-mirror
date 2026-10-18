@@ -1,0 +1,27 @@
+# Runtime caches and large artifacts
+.cache/
+dist/
+*.part
+
+# Python
+__pycache__/
+*.pyc
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Internal planning / evaluation bookkeeping (kept local, not published)
+pm_charter.md
+pm_decisions.md
+pm_progress.md
+pm_weekly.md
+findings.md
+progress.md
+task_plan.md
+research/evaluation-plan.md
+research/evaluation-report.md
+research/raw/
+research/heads/
+research/probe-matrix.json
+research/toolchain.txt

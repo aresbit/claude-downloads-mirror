@@ -1,0 +1,249 @@
+window.MIRROR_MANIFEST = {
+  "schema_version": 1,
+  "sample": true,
+  "generated_at": "2026-10-17T08:00:00Z",
+  "mirror": {
+    "owner": "aresbit",
+    "repo": "claude-downloads-mirror",
+    "site_url": "https://aresbit.github.io/claude-downloads-mirror/",
+    "source": "https://downloads.claude.ai"
+  },
+  "products": [
+    {
+      "id": "claude-desktop",
+      "name": "Claude Desktop",
+      "version": "2.42304.0",
+      "tag": "desktop-v2.42304.0",
+      "release_url": "https://github.com/aresbit/claude-downloads-mirror/releases/tag/desktop-v2.42304.0",
+      "released_at": "2026-10-17T08:00:00Z",
+      "artifacts": [
+        {
+          "id": "macos-universal",
+          "os": "macOS",
+          "arch": "Universal",
+          "variant": "Installer",
+          "file": "Claude-Desktop-2.42304.0-macOS-universal.dmg",
+          "size": 388258098,
+          "source_url": "https://downloads.claude.ai/releases/darwin/universal/2.42304.0/Claude-e7f60e658f15cfece9efa384a78a39aec3c12845.dmg",
+          "mirrored": true,
+          "sha256": "deadbeef48423c7848dab9b929b589ccdd5e48343fd44e51baeb368e49edf605",
+          "download_url": "https://github.com/aresbit/claude-downloads-mirror/releases/download/desktop-v2.42304.0/Claude-Desktop-2.42304.0-macOS-universal.dmg"
+        },
+        {
+          "id": "macos-intel-offline",
+          "os": "macOS",
+          "arch": "Intel",
+          "variant": "Offline Installer",
+          "file": "Claude-Desktop-2.42304.0-macOS-intel-offline.dmg",
+          "size": 2078252702,
+          "source_url": "https://downloads.claude.ai/releases-offline/darwin/x64/2.42304.0/Claude-e7f60e658f15cfece9efa384a78a39aec3c12845-offline.dmg",
+          "mirrored": true,
+          "sha256": "deadbeef5139e2e741678ca1aef572d45c11ec04894a9ab336b7dbcf3f6f4c26",
+          "download_url": "https://github.com/aresbit/claude-downloads-mirror/releases/download/desktop-v2.42304.0/Claude-Desktop-2.42304.0-macOS-intel-offline.dmg"
+        },
+        {
+          "id": "macos-apple-silicon-offline",
+          "os": "macOS",
+          "arch": "Apple Silicon",
+          "variant": "Offline Installer",
+          "file": "Claude-Desktop-2.42304.0-macOS-apple-silicon-offline.dmg",
+          "size": 2000405037,
+          "source_url": "https://downloads.claude.ai/releases-offline/darwin/arm64/2.42304.0/Claude-e7f60e658f15cfece9efa384a78a39aec3c12845-offline.dmg",
+          "mirrored": true,
+          "sha256": "deadbeef053e9f331678402cdc0ace784404ec89c4dad6821f266f600f476ccf",
+          "download_url": "https://github.com/aresbit/claude-downloads-mirror/releases/download/desktop-v2.42304.0/Claude-Desktop-2.42304.0-macOS-apple-silicon-offline.dmg"
+        },
+        {
+          "id": "windows-x64-setup",
+          "os": "Windows",
+          "arch": "x64",
+          "variant": "Online Installer",
+          "file": "Claude-Desktop-2.42304.0-Windows-x64-setup.exe",
+          "size": 7178400,
+          "source_url": "https://downloads.claude.ai/releases/win32/x64/2.42304.0/ClaudeSetup-e7f60e658f15cfece9efa384a78a39aec3c12845.exe",
+          "mirrored": true,
+          "sha256": "deadbeef414b01d98f875a3d6d1b8c24b386309e12d9fcb81b59be658604f3e5",
+          "download_url": "https://github.com/aresbit/claude-downloads-mirror/releases/download/desktop-v2.42304.0/Claude-Desktop-2.42304.0-Windows-x64-setup.exe"
+        },
+        {
+          "id": "windows-arm64-setup",
+          "os": "Windows",
+          "arch": "arm64",
+          "variant": "Online Installer",
+          "file": "Claude-Desktop-2.42304.0-Windows-arm64-setup.exe",
+          "size": 6579360,
+          "source_url": "https://downloads.claude.ai/releases/win32/arm64/2.42304.0/ClaudeSetup-e7f60e658f15cfece9efa384a78a39aec3c12845.exe",
+          "mirrored": true,
+          "sha256": "deadbeef61184bb1ea9fab42db7fd30bd58420c82487f8ea16ec038fb76be802",
+          "download_url": "https://github.com/aresbit/claude-downloads-mirror/releases/download/desktop-v2.42304.0/Claude-Desktop-2.42304.0-Windows-arm64-setup.exe"
+        },
+        {
+          "id": "windows-x64-exe",
+          "os": "Windows",
+          "arch": "x64",
+          "variant": "Installer",
+          "file": "Claude-Desktop-2.42304.0-Windows-x64.exe",
+          "size": 262888096,
+          "source_url": "https://downloads.claude.ai/releases/win32/x64/2.42304.0/Claude-e7f60e658f15cfece9efa384a78a39aec3c12845.exe",
+          "mirrored": true,
+          "sha256": "deadbeefa37b91a16277f6cad94b92502facee63fc7df132fb6c08413ccd1eb7",
+          "download_url": "https://github.com/aresbit/claude-downloads-mirror/releases/download/desktop-v2.42304.0/Claude-Desktop-2.42304.0-Windows-x64.exe"
+        },
+        {
+          "id": "windows-arm64-exe",
+          "os": "Windows",
+          "arch": "arm64",
+          "variant": "Installer",
+          "file": "Claude-Desktop-2.42304.0-Windows-arm64.exe",
+          "size": 257629856,
+          "source_url": "https://downloads.claude.ai/releases/win32/arm64/2.42304.0/Claude-e7f60e658f15cfece9efa384a78a39aec3c12845.exe",
+          "mirrored": true,
+          "sha256": "deadbeef5a277a3026f420fac4b5f2c2b2a1b69356b6a7f320e95bc7b40eb631",
+          "download_url": "https://github.com/aresbit/claude-downloads-mirror/releases/download/desktop-v2.42304.0/Claude-Desktop-2.42304.0-Windows-arm64.exe"
+        },
+        {
+          "id": "windows-x64-msix",
+          "os": "Windows",
+          "arch": "x64",
+          "variant": "MSIX",
+          "file": "Claude-Desktop-2.42304.0-Windows-x64.msix",
+          "size": 297191037,
+          "source_url": "https://downloads.claude.ai/releases/win32/x64/2.42304.0/Claude-e7f60e658f15cfece9efa384a78a39aec3c12845.msix",
+          "mirrored": true,
+          "sha256": "deadbeef72c789775dbe6d9cfc9a7f9b983e15f213b415174eb9d196effbf06e",
+          "download_url": "https://github.com/aresbit/claude-downloads-mirror/releases/download/desktop-v2.42304.0/Claude-Desktop-2.42304.0-Windows-x64.msix"
+        },
+        {
+          "id": "windows-arm64-msix",
+          "os": "Windows",
+          "arch": "arm64",
+          "variant": "MSIX",
+          "file": "Claude-Desktop-2.42304.0-Windows-arm64.msix",
+          "size": 290955054,
+          "source_url": "https://downloads.claude.ai/releases/win32/arm64/2.42304.0/Claude-e7f60e658f15cfece9efa384a78a39aec3c12845.msix",
+          "mirrored": true,
+          "sha256": "deadbeef5ef8d8f6d651f38954817b8d17f20e3e5e90b44da0a7c31ff3ff314d",
+          "download_url": "https://github.com/aresbit/claude-downloads-mirror/releases/download/desktop-v2.42304.0/Claude-Desktop-2.42304.0-Windows-arm64.msix"
+        },
+        {
+          "id": "windows-x64-offline",
+          "os": "Windows",
+          "arch": "x64",
+          "variant": "Offline MSIX",
+          "file": "Claude-Desktop-2.42304.0-Windows-x64-offline.msix",
+          "size": 2220697207,
+          "source_url": "https://downloads.claude.ai/releases-offline/win32/x64/2.42304.0/Claude-e7f60e658f15cfece9efa384a78a39aec3c12845-offline.msix",
+          "mirrored": false,
+          "download_url": null,
+          "relay_url": "relay/windows-x64-offline.html"
+        },
+        {
+          "id": "windows-arm64-offline",
+          "os": "Windows",
+          "arch": "arm64",
+          "variant": "Offline MSIX",
+          "file": "Claude-Desktop-2.42304.0-Windows-arm64-offline.msix",
+          "size": 2142449767,
+          "source_url": "https://downloads.claude.ai/releases-offline/win32/arm64/2.42304.0/Claude-e7f60e658f15cfece9efa384a78a39aec3c12845-offline.msix",
+          "mirrored": true,
+          "sha256": "deadbeef4fd1620b982a17274483118f0983f4c7d7e88232beb4d8b7bdf9d3f8",
+          "download_url": "https://github.com/aresbit/claude-downloads-mirror/releases/download/desktop-v2.42304.0/Claude-Desktop-2.42304.0-Windows-arm64-offline.msix"
+        },
+        {
+          "id": "linux-x64-deb",
+          "os": "Linux",
+          "arch": "x64",
+          "variant": "Debian Package",
+          "file": "Claude-Desktop-2.42304.0-Linux-x64.deb",
+          "size": 183117920,
+          "source_url": "https://downloads.claude.ai/releases/linux/x64/2.42304.0/Claude-e7f60e658f15cfece9efa384a78a39aec3c12845.deb",
+          "mirrored": true,
+          "sha256": "deadbeef3b75fa842c8d0555527e2a318154f4cf3235c2421b76b4d226fc38b3",
+          "download_url": "https://github.com/aresbit/claude-downloads-mirror/releases/download/desktop-v2.42304.0/Claude-Desktop-2.42304.0-Linux-x64.deb"
+        },
+        {
+          "id": "linux-arm64-deb",
+          "os": "Linux",
+          "arch": "arm64",
+          "variant": "Debian Package",
+          "file": "Claude-Desktop-2.42304.0-Linux-arm64.deb",
+          "size": 176002208,
+          "source_url": "https://downloads.claude.ai/releases/linux/arm64/2.42304.0/Claude-e7f60e658f15cfece9efa384a78a39aec3c12845.deb",
+          "mirrored": true,
+          "sha256": "deadbeef49cad53115326a20de000f7d0d635904734801abe091cd17867c8e32",
+          "download_url": "https://github.com/aresbit/claude-downloads-mirror/releases/download/desktop-v2.42304.0/Claude-Desktop-2.42304.0-Linux-arm64.deb"
+        }
+      ]
+    },
+    {
+      "id": "claude-science",
+      "name": "Claude Science",
+      "version": "0.1.63",
+      "tag": "science-v0.1.63",
+      "release_url": "https://github.com/aresbit/claude-downloads-mirror/releases/tag/science-v0.1.63",
+      "released_at": "2026-10-17T08:00:00Z",
+      "artifacts": [
+        {
+          "id": "science-macos-apple-silicon",
+          "os": "macOS",
+          "arch": "Apple Silicon",
+          "variant": "Installer",
+          "file": "Claude-Science-0.1.63-macOS-apple-silicon.dmg",
+          "size": 79907185,
+          "source_url": "https://downloads.claude.ai/claude-science/0.1.63/mac-arm64.dmg",
+          "mirrored": true,
+          "sha256": "deadbeef21d4a0184a65f97accb6f49451bbdb170741fbad491780526d80b808",
+          "download_url": "https://github.com/aresbit/claude-downloads-mirror/releases/download/science-v0.1.63/Claude-Science-0.1.63-macOS-apple-silicon.dmg"
+        },
+        {
+          "id": "science-macos-intel",
+          "os": "macOS",
+          "arch": "Intel",
+          "variant": "Installer",
+          "file": "Claude-Science-0.1.63-macOS-intel.dmg",
+          "size": 84030121,
+          "source_url": "https://downloads.claude.ai/claude-science/0.1.63/mac-x64.dmg",
+          "mirrored": true,
+          "sha256": "deadbeef6bd9f39b9a4f0b1869798a041ded1bf1ab3ea406bd9eeefbbfc4ef00",
+          "download_url": "https://github.com/aresbit/claude-downloads-mirror/releases/download/science-v0.1.63/Claude-Science-0.1.63-macOS-intel.dmg"
+        },
+        {
+          "id": "science-windows-x64",
+          "os": "Windows",
+          "arch": "x64",
+          "variant": "Installer",
+          "file": "Claude-Science-0.1.63-Windows-x64.exe",
+          "size": 168830624,
+          "source_url": "https://downloads.claude.ai/claude-science/0.1.63/windows-x64.exe",
+          "mirrored": true,
+          "sha256": "deadbeefe449fe2a63fe7ea8ac909b1021bc587ae4ff6cef80d9dae1d34ecc06",
+          "download_url": "https://github.com/aresbit/claude-downloads-mirror/releases/download/science-v0.1.63/Claude-Science-0.1.63-Windows-x64.exe"
+        },
+        {
+          "id": "science-windows-arm64",
+          "os": "Windows",
+          "arch": "arm64",
+          "variant": "Installer",
+          "file": "Claude-Science-0.1.63-Windows-arm64.exe",
+          "size": 154804896,
+          "source_url": "https://downloads.claude.ai/claude-science/0.1.63/windows-arm64.exe",
+          "mirrored": true,
+          "sha256": "deadbeef9fe8fae7c7faa4bac7a15d8b9113f17edb2a8a13669ecbd7f6fb55e8",
+          "download_url": "https://github.com/aresbit/claude-downloads-mirror/releases/download/science-v0.1.63/Claude-Science-0.1.63-Windows-arm64.exe"
+        },
+        {
+          "id": "science-linux-x64",
+          "os": "Linux",
+          "arch": "x64",
+          "variant": "Installer",
+          "file": "Claude-Science-0.1.63-Linux-x64",
+          "size": 150714336,
+          "source_url": "https://downloads.claude.ai/claude-science/0.1.63/linux-x64",
+          "mirrored": true,
+          "sha256": "deadbeeff320d2ec992cdd78ef5c84c838e018f06ba1692b744e0d058c0a1db9",
+          "download_url": "https://github.com/aresbit/claude-downloads-mirror/releases/download/science-v0.1.63/Claude-Science-0.1.63-Linux-x64"
+        }
+      ]
+    }
+  ]
+};
