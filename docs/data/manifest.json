@@ -244,6 +244,112 @@
           "download_url": "https://github.com/aresbit/claude-downloads-mirror/releases/download/science-v0.1.63/Claude-Science-0.1.63-Linux-x64"
         }
       ]
+    },
+    {
+      "id": "claude-code",
+      "name": "Claude Code",
+      "version": "2.1.302",
+      "tag": "code-v2.1.302",
+      "release_url": "https://github.com/aresbit/claude-downloads-mirror/releases/tag/code-v2.1.302",
+      "released_at": "2026-10-16T16:13:51Z",
+      "artifacts": [
+        {
+          "id": "code-macos-apple-silicon",
+          "os": "macOS",
+          "arch": "Apple Silicon",
+          "variant": "Binary",
+          "file": "Claude-Code-2.1.302-macOS-arm64",
+          "size": 267956720,
+          "mirrored": true,
+          "sha256": "5262ce9de86243fed0d21edc39b271555d56780d0112e2b194439fe1c6662d37",
+          "download_url": "https://github.com/aresbit/claude-downloads-mirror/releases/download/code-v2.1.302/Claude-Code-2.1.302-macOS-arm64",
+          "source_url": "https://downloads.claude.ai/claude-code-releases/2.1.302/darwin-arm64/claude"
+        },
+        {
+          "id": "code-macos-intel",
+          "os": "macOS",
+          "arch": "Intel",
+          "variant": "Binary",
+          "file": "Claude-Code-2.1.302-macOS-intel",
+          "size": 279242736,
+          "mirrored": true,
+          "sha256": "b9a913114f42870ec8e38848c88c855d73f73187871ec2e1ad05bbe54029d9ac",
+          "download_url": "https://github.com/aresbit/claude-downloads-mirror/releases/download/code-v2.1.302/Claude-Code-2.1.302-macOS-intel",
+          "source_url": "https://downloads.claude.ai/claude-code-releases/2.1.302/darwin-x64/claude"
+        },
+        {
+          "id": "code-windows-x64",
+          "os": "Windows",
+          "arch": "x64",
+          "variant": "Binary",
+          "file": "Claude-Code-2.1.302-Windows-x64.exe",
+          "size": 290211488,
+          "mirrored": true,
+          "sha256": "3ab075f78998efef8b87f491c2e4a39c309dddf44e51d0103eba4f3713d2a0ae",
+          "download_url": "https://github.com/aresbit/claude-downloads-mirror/releases/download/code-v2.1.302/Claude-Code-2.1.302-Windows-x64.exe",
+          "source_url": "https://downloads.claude.ai/claude-code-releases/2.1.302/win32-x64/claude.exe"
+        },
+        {
+          "id": "code-windows-arm64",
+          "os": "Windows",
+          "arch": "arm64",
+          "variant": "Binary",
+          "file": "Claude-Code-2.1.302-Windows-arm64.exe",
+          "size": 274492064,
+          "mirrored": true,
+          "sha256": "e2c445a4fa8a8c92b64f29bf56dc7addd1770764214ed18023bab8f544f584ed",
+          "download_url": "https://github.com/aresbit/claude-downloads-mirror/releases/download/code-v2.1.302/Claude-Code-2.1.302-Windows-arm64.exe",
+          "source_url": "https://downloads.claude.ai/claude-code-releases/2.1.302/win32-arm64/claude.exe"
+        },
+        {
+          "id": "code-linux-x64",
+          "os": "Linux",
+          "arch": "x64",
+          "variant": "Binary",
+          "file": "Claude-Code-2.1.302-Linux-x64",
+          "size": 285793528,
+          "mirrored": true,
+          "sha256": "60d7eb7f12fbb28a52533fe8be5884097403562aa02dc73991a021c7067e29a5",
+          "download_url": "https://github.com/aresbit/claude-downloads-mirror/releases/download/code-v2.1.302/Claude-Code-2.1.302-Linux-x64",
+          "source_url": "https://downloads.claude.ai/claude-code-releases/2.1.302/linux-x64/claude"
+        },
+        {
+          "id": "code-linux-x64-musl",
+          "os": "Linux",
+          "arch": "x64 (musl)",
+          "variant": "Binary",
+          "file": "Claude-Code-2.1.302-Linux-x64-musl",
+          "size": 279426576,
+          "mirrored": true,
+          "sha256": "39395c4d6fef3e38bf59d75890593a5474181c8e96534b54562312503685f787",
+          "download_url": "https://github.com/aresbit/claude-downloads-mirror/releases/download/code-v2.1.302/Claude-Code-2.1.302-Linux-x64-musl",
+          "source_url": "https://downloads.claude.ai/claude-code-releases/2.1.302/linux-x64-musl/claude"
+        },
+        {
+          "id": "code-linux-arm64",
+          "os": "Linux",
+          "arch": "arm64",
+          "variant": "Binary",
+          "file": "Claude-Code-2.1.302-Linux-arm64",
+          "size": 285335616,
+          "mirrored": true,
+          "sha256": "2bd4f4e5ed5cb09955b490098f745321cb5491e7ea8c752ba1e3bb010cdadb10",
+          "download_url": "https://github.com/aresbit/claude-downloads-mirror/releases/download/code-v2.1.302/Claude-Code-2.1.302-Linux-arm64",
+          "source_url": "https://downloads.claude.ai/claude-code-releases/2.1.302/linux-arm64/claude"
+        },
+        {
+          "id": "code-linux-arm64-musl",
+          "os": "Linux",
+          "arch": "arm64 (musl)",
+          "variant": "Binary",
+          "file": "Claude-Code-2.1.302-Linux-arm64-musl",
+          "size": 277560568,
+          "mirrored": true,
+          "sha256": "58dd401b704351f4b70a0bb6faecbc1eb1405057b4dd4cf48a7beae93b4ca143",
+          "download_url": "https://github.com/aresbit/claude-downloads-mirror/releases/download/code-v2.1.302/Claude-Code-2.1.302-Linux-arm64-musl",
+          "source_url": "https://downloads.claude.ai/claude-code-releases/2.1.302/linux-arm64-musl/claude"
+        }
+      ]
     }
   ]
 }

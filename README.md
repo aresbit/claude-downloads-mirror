@@ -3,13 +3,13 @@
 `downloads.claude.ai` 的手动维护镜像：**GitHub Pages 静态门户 + GitHub Releases 安装包托管**。
 
 - 门户：`docs/`（GitHub Pages）
-- 安装包：每个产品版本一个 GitHub Release（`desktop-v<版本>`、`science-v<版本>`）
+- 安装包：每个产品版本一个 GitHub Release（`desktop-v<版本>`、`science-v<版本>`、`code-v<版本>`）
 - 索引：`docs/data/manifest.json`（机器可读）与 `docs/data/manifest.js`（页面直接加载）
 - 更新：**手动执行发布脚本**，没有 cron、没有自动更新
 
 > 非官方镜像，与 Anthropic 无隶属关系。请优先从官方源下载。
 
-> **首次发布前**：仓库里的 `docs/data/manifest.json` 是带 `"sample": true` 的布局样例，页面会显示“示例数据 / 尚未发布”横幅。运行一次 `publish` 后会被真实清单替换，横幅随之消失。
+> **首次发布前**：仓库里的 `docs/data/manifest.json` 是带 `"sample": true` 的布局样例。运行一次 `publish` 后会被真实清单替换。
 
 ## 当前内容
 
@@ -17,8 +17,11 @@
 |---|---|---|
 | Claude Desktop | `2.42304.0` | macOS ×3、Windows ×8、Linux ×2 |
 | Claude Science | `0.1.63` | macOS ×2、Windows ×2、Linux ×1 |
+| Claude Code | `2.1.302` | macOS ×2、Windows ×2、Linux ×4（含 musl） |
 
-合计 18 个条目：17 个镜像包 + 1 个官方源中转（`windows-x64-offline` 超过 GitHub 单文件 2 GiB 上限）。
+合计 26 个条目：25 个镜像包 + 1 个官方源中转（`windows-x64-offline` 超过 GitHub 单文件 2 GiB 上限）。
+
+Claude Code 条目是各平台的原生二进制（含 Linux musl 变体）；官方安装脚本仍可使用 `curl -fsSL https://claude.ai/install.sh | bash`。
 
 ## 依赖
 
@@ -49,13 +52,13 @@
    python3 scripts/mirror.py publish
    ```
 
-   `publish` 会下载新版本安装包到 `.cache/downloads/`、校验大小与 SHA-256、创建/复用 GitHub Release、上传资产与 `SHA256SUMS.txt`，并重新生成 manifest。首次发布会下载约 **8.7 GB**，请预留磁盘与时间。
+   `publish` 会下载新版本安装包到 `.cache/downloads/`、校验大小与 SHA-256、创建/复用 GitHub Release、上传资产与 `SHA256SUMS.txt`，并重新生成 manifest。首次发布会下载约 **11 GB**，请预留磁盘与时间。
 
 5. 提交并推送生成的清单：
 
    ```bash
    git add docs/data docs/relay
-   git commit -m "Publish Claude Desktop 2.42304.0 / Claude Science 0.1.63"
+   git commit -m "Publish Claude Desktop 2.42304.0 / Claude Science 0.1.63 / Claude Code 2.1.302"
    git push
    ```
 
@@ -88,7 +91,7 @@ GitHub Release 的稳定下载 URL 支持 HTTP Range/断点续传；重定向后
 常用参数：
 
 ```bash
---product desktop|science   # 只处理某个产品
+--product desktop|science|code   # 只处理某个产品
 --exclude id,id            # 跳过指定 artifact
 --force                    # 版本未变也重新上传（仅此时使用 --clobber）
 --commit                   # 发布后本地提交 manifest 与 relay 页
@@ -123,7 +126,7 @@ shasum -a 256 <文件名>        # macOS
 Get-FileHash .\<文件名> -Algorithm SHA256   # Windows PowerShell
 ```
 
-Claude Science 的哈希来自官方 `claude-science/latest/manifest.json`（DMG 用 `dmg_sha256`，EXE/Linux 用 `sha256`）。Claude Desktop 没有公开哈希，引擎在下载后计算并记录 SHA-256。
+Claude Science 的哈希来自官方 `claude-science/latest/manifest.json`（DMG 用 `dmg_sha256`，EXE/Linux 用 `sha256`）。Claude Code 的哈希来自官方 `claude-code-releases/<版本>/manifest.json`。Claude Desktop 没有公开哈希，引擎在下载后计算并记录 SHA-256。
 
 ## 目录结构
 

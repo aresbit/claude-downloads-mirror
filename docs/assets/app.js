@@ -5,7 +5,7 @@
 
   var I18N = {
     zh: {
-      pageTitle: 'Claude 下载镜像 · Claude Desktop 与 Claude Science',
+      pageTitle: 'Claude 下载镜像 · Desktop · Science · Code',
       skipLink: '跳到主要内容',
       brand: 'Claude 下载镜像',
       brandTag: '手动维护',
@@ -13,13 +13,13 @@
       navOverview: '概览',
       navDesktop: 'Claude Desktop',
       navScience: 'Claude Science',
-      navVerify: '校验与说明',
+      navCode: 'Claude Code',
       langLabel: '切换语言',
       themeToDark: '切换到深色模式',
       themeToLight: '切换到浅色模式',
       heroEyebrow: '社区镜像 · 手动维护',
-      heroTitle: 'Claude 桌面端下载镜像',
-      heroLead: 'Claude Desktop 与 Claude Science 安装包。',
+      heroTitle: 'Claude 下载镜像',
+      heroLead: 'Claude Desktop · Claude Science · Claude Code',
       lastUpdated: '更新',
       officialSource: '官方源',
       previewTitle: '示例数据 · 尚未发布',
@@ -30,10 +30,12 @@
       overviewTitle: '概览',
       statDesktop: 'Claude Desktop',
       statScience: 'Claude Science',
+      statCode: 'Claude Code',
       statSize: '镜像大小',
       statArtifacts: '镜像包',
       statDesktopMeta: '{n} 个包',
       statScienceMeta: '{n} 个包',
+      statCodeMeta: '{n} 个包',
       statSizeMeta: '已镜像',
       statArtifactsMeta: '{n} 个产品',
       statSizeBreakdown: '{n} 个镜像 · {r} 个中转',
@@ -45,6 +47,8 @@
       desktopDesc: 'macOS · Windows · Linux',
       scienceKicker: '科学应用',
       scienceDesc: 'macOS · Windows · Linux',
+      codeKicker: '命令行',
+      codeDesc: 'macOS · Linux · Windows',
       viewRelease: 'Release',
       releasedAt: '发布于 {date}',
       download: '下载',
@@ -73,6 +77,7 @@
       unknownOS: '其他平台',
       unknownArtifact: '未命名文件',
       variantInstaller: '安装包',
+      variantBinary: '二进制',
       variantOffline: '离线安装包',
       variantSetup: '在线安装器',
       variantExe: 'EXE 安装包',
@@ -104,7 +109,7 @@
       footerSource: '官方源'
     },
     en: {
-      pageTitle: 'Claude Downloads Mirror · Claude Desktop & Claude Science',
+      pageTitle: 'Claude Downloads Mirror · Desktop · Science · Code',
       skipLink: 'Skip to main content',
       brand: 'Claude Downloads Mirror',
       brandTag: 'Manual mirror',
@@ -112,13 +117,13 @@
       navOverview: 'Overview',
       navDesktop: 'Claude Desktop',
       navScience: 'Claude Science',
-      navVerify: 'Verify & notes',
+      navCode: 'Claude Code',
       langLabel: 'Language',
       themeToDark: 'Switch to dark mode',
       themeToLight: 'Switch to light mode',
       heroEyebrow: 'COMMUNITY MIRROR · MANUALLY MAINTAINED',
-      heroTitle: 'Claude desktop downloads mirror',
-      heroLead: 'Installers for Claude Desktop and Claude Science.',
+      heroTitle: 'Claude downloads mirror',
+      heroLead: 'Claude Desktop · Claude Science · Claude Code',
       lastUpdated: 'Updated',
       officialSource: 'Official',
       previewTitle: 'Sample data · not published',
@@ -129,10 +134,12 @@
       overviewTitle: 'Overview',
       statDesktop: 'Claude Desktop',
       statScience: 'Claude Science',
+      statCode: 'Claude Code',
       statSize: 'Mirror size',
       statArtifacts: 'Packages',
       statDesktopMeta: '{n} packages',
       statScienceMeta: '{n} packages',
+      statCodeMeta: '{n} packages',
       statSizeMeta: 'Mirrored',
       statArtifactsMeta: '{n} products',
       statSizeBreakdown: '{n} mirrored · {r} relay',
@@ -144,6 +151,8 @@
       desktopDesc: 'macOS · Windows · Linux',
       scienceKicker: 'Science',
       scienceDesc: 'macOS · Windows · Linux',
+      codeKicker: 'CLI',
+      codeDesc: 'macOS · Linux · Windows',
       viewRelease: 'Release',
       releasedAt: 'Released {date}',
       download: 'Download',
@@ -172,6 +181,7 @@
       unknownOS: 'Other platform',
       unknownArtifact: 'Unnamed file',
       variantInstaller: 'Installer',
+      variantBinary: 'Binary',
       variantOffline: 'Offline installer',
       variantSetup: 'Online installer',
       variantExe: 'EXE installer',
@@ -277,6 +287,7 @@
   function isStandaloneBinary(artifact) {
     var file = readText(artifact.file);
     if (!file || /\.[A-Za-z0-9]+$/.test(file)) return false;
+    if (/^Claude-Code-/i.test(file)) return false;
     return readText(artifact.os).toLowerCase() === 'linux' &&
       readText(artifact.arch).toLowerCase() === 'x64';
   }
@@ -358,6 +369,7 @@
     if (normalized.indexOf('msix') !== -1) return t('variantMsix');
     if (normalized.indexOf('deb') !== -1) return t('variantDeb');
     if (normalized.indexOf('exe') !== -1) return t('variantExe');
+    if (normalized.indexOf('binary') !== -1) return t('variantBinary');
     if (normalized.indexOf('install') !== -1) return t('variantInstaller');
     return raw;
   }
@@ -807,9 +819,10 @@
     return text;
   }
 
-  function renderStats(products, desktop, science) {
+  function renderStats(products, desktop, science, code) {
     var desktopCounts = countArtifacts(desktop);
     var scienceCounts = countArtifacts(science);
+    var codeCounts = countArtifacts(code);
 
     $('#stat-desktop').textContent = desktop ? productVersion(desktop) : '—';
     $('#stat-desktop-meta').textContent = desktop
@@ -819,6 +832,11 @@
     $('#stat-science').textContent = science ? productVersion(science) : '—';
     $('#stat-science-meta').textContent = science
       ? productMetaText(scienceCounts, 'statScienceMeta')
+      : t('notInManifest');
+
+    $('#stat-code').textContent = code ? productVersion(code) : '—';
+    $('#stat-code-meta').textContent = code
+      ? productMetaText(codeCounts, 'statCodeMeta')
       : t('notInManifest');
 
     var totalMirrored = 0;
@@ -841,22 +859,15 @@
         ? t('statSizeBreakdown', { n: totalMirrored, r: totalRelay })
         : t('statSizeSimple', { n: totalMirrored }))
       : t('statSizeMeta');
-    $('#stat-count').textContent = String(totalMirrored);
-    $('#stat-count-meta').textContent = totalRelay
-      ? t('statCountBreakdown', { n: totalRelay, p: products.length })
-      : t('statArtifactsMeta', { n: products.length });
   }
 
   function setManifestVisibility(ready) {
     $('#overview').hidden = !ready;
     $('#desktop').hidden = !ready;
     $('#science').hidden = !ready;
+    $('#code').hidden = !ready;
     $('#manifest-empty').hidden = ready;
     $('#anchor-nav').hidden = !ready;
-    if (!ready) {
-      var preview = $('#preview-note');
-      if (preview) preview.hidden = true;
-    }
   }
 
   function showManifestProblem(kind) {
@@ -889,48 +900,6 @@
     finishBoot();
   }
 
-  function isLocalPreview() {
-    var host = location.hostname;
-    return location.protocol === 'file:' ||
-      host === 'localhost' ||
-      host === '127.0.0.1' ||
-      host === '::1' ||
-      host === '[::1]';
-  }
-
-  function hasPlaceholderHashes(manifest) {
-    if (!isObject(manifest) || !Array.isArray(manifest.products)) return false;
-    return manifest.products.some(function (product) {
-      if (!isObject(product) || !Array.isArray(product.artifacts)) return false;
-      return product.artifacts.some(function (artifact) {
-        return isObject(artifact) && /^deadbeef/i.test(readText(artifact.sha256));
-      });
-    });
-  }
-
-  function renderPreviewNotice(manifest) {
-    var banner = $('#preview-note');
-    if (!banner) return;
-    var sampleFlag = isObject(manifest) && manifest.sample === true;
-    var placeholder = hasPlaceholderHashes(manifest);
-    var sample = sampleFlag || placeholder;
-    var local = isLocalPreview();
-    document.documentElement.dataset.sample = sample ? 'true' : 'false';
-    banner.hidden = !sample && !local;
-    var titleKey = sample ? 'previewTitlePlaceholder' : 'previewTitle';
-    var bodyKey = sampleFlag ? 'previewBodySample' : (placeholder ? 'previewBodyPlaceholder' : 'previewBody');
-    var title = $('#preview-title');
-    var body = $('#preview-body');
-    if (title) {
-      title.dataset.i18n = titleKey;
-      title.textContent = t(titleKey);
-    }
-    if (body) {
-      body.dataset.i18n = bodyKey;
-      body.textContent = t(bodyKey);
-    }
-  }
-
   function renderManifest(manifest) {
     if (!isObject(manifest) || !Array.isArray(manifest.products)) {
       showManifestProblem('invalid');
@@ -945,14 +914,14 @@
       updated.textContent = '—';
     }
 
-    renderPreviewNotice(manifest);
     setupMirrorLinks(manifest);
 
     var products = manifest.products.filter(isObject);
     var desktop = findProduct(products, 'claude-desktop', 'desktop');
     var science = findProduct(products, 'claude-science', 'science');
+    var code = findProduct(products, 'claude-code', 'code');
 
-    renderStats(products, desktop, science);
+    renderStats(products, desktop, science, code);
 
     renderProduct(desktop, {
       name: $('#desktop-name'),
@@ -968,6 +937,14 @@
       released: $('#science-released'),
       release: $('#science-release'),
       groups: $('#science-groups')
+    });
+
+    renderProduct(code, {
+      name: $('#code-name'),
+      version: $('#code-version'),
+      released: $('#code-released'),
+      release: $('#code-release'),
+      groups: $('#code-groups')
     });
 
     state.renderedOnce = true;

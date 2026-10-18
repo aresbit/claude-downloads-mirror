@@ -29,11 +29,13 @@ def make_config(**overrides):
         "source": {
             "desktop_api": "https://api.anthropic.com/api/desktop",
             "science_base": "https://downloads.claude.ai/claude-science/latest",
+            "code_base": "https://downloads.claude.ai/claude-code-releases",
             "site": "https://downloads.claude.ai",
         },
         "release": {
             "desktop_tag_prefix": "desktop-v",
             "science_tag_prefix": "science-v",
+            "code_tag_prefix": "code-v",
             "max_asset_bytes": engine.DEFAULT_MAX_ASSET_BYTES,
         },
     }
@@ -160,20 +162,63 @@ def science_http(
     return FakeHttp(json_map, head_map)
 
 
+CODE_SIZES = {definition.id: 3000 + index for index, definition in enumerate(engine.CODE_DEFS)}
+
+
+def code_http(version="2.1.302", sizes=None, hash_overrides=None):
+    """Fake Claude Code latest/manifest/binary endpoints."""
+    sizes = sizes or {}
+    hash_overrides = hash_overrides or {}
+    base = "https://downloads.claude.ai/claude-code-releases"
+    platforms = {}
+    head_map = {}
+    for definition in engine.CODE_DEFS:
+        size = sizes.get(definition.id, CODE_SIZES[definition.id])
+        binary = "claude.exe" if definition.endpoint_path.startswith("win32") else "claude"
+        source = f"{base}/{version}/{definition.endpoint_path}/{binary}"
+        checksum = hash_overrides.get(
+            definition.id, fake_sha(source, size)
+        )
+        platforms[definition.endpoint_path] = {
+            "binary": binary,
+            "checksum": checksum,
+            "size": size,
+        }
+        head_map[source] = engine.HeadResponse(
+            200, {"x-goog-stored-content-length": str(size)}, source
+        )
+    json_map = {
+        f"{base}/{version}/manifest.json": {
+            "version": version,
+            "platforms": platforms,
+        }
+    }
+    text_map = {f"{base}/latest": version}
+    return FakeHttp(json_map, head_map, text_map=text_map)
+
+
 class FakeHttp:
-    def __init__(self, json_map=None, head_map=None, range_map=None):
+    def __init__(self, json_map=None, head_map=None, range_map=None, text_map=None):
         self.json_map = json_map or {}
         self.head_map = head_map or {}
         self.range_map = range_map or {}
+        self.text_map = text_map or {}
         self.json_calls = []
         self.head_calls = []
         self.range_calls = []
+        self.text_calls = []
 
     def get_json(self, url):
         self.json_calls.append(url)
         if url not in self.json_map:
             raise engine.MirrorError(f"unexpected GET {url}")
         return copy.deepcopy(self.json_map[url])
+
+    def get_text(self, url):
+        self.text_calls.append(url)
+        if url not in self.text_map:
+            raise engine.MirrorError(f"unexpected text GET {url}")
+        return self.text_map[url]
 
     def head(self, url):
         self.head_calls.append(url)
@@ -419,6 +464,42 @@ class VersionParsingTests(unittest.TestCase):
         self.assertEqual(engine.header_size({"x-goog-stored-content-length": "9"}), 9)
 
 
+    def test_code_resolution(self):
+        resolver = engine.Resolver(make_config(), code_http())
+        for definition in engine.CODE_DEFS:
+            resolved = resolver.resolve_one(definition)
+            self.assertEqual(resolved.version, "2.1.302")
+            self.assertEqual(resolved.size, CODE_SIZES[definition.id])
+            self.assertTrue(engine.SHA256_RE.match(resolved.expected_sha256 or ""))
+            self.assertIn(f"/{definition.endpoint_path}/", resolved.source_url)
+
+    def test_code_missing_platform_rejected(self):
+        http = code_http()
+        manifest_url = "https://downloads.claude.ai/claude-code-releases/2.1.302/manifest.json"
+        del http.json_map[manifest_url]["platforms"]["darwin-arm64"]
+        resolver = engine.Resolver(make_config(), http)
+        with self.assertRaises(engine.MirrorError):
+            resolver.resolve_one(engine.CODE_DEFS[0])
+
+    def test_code_size_mismatch_rejected(self):
+        http = code_http()
+        url = "https://downloads.claude.ai/claude-code-releases/2.1.302/darwin-arm64/claude"
+        http.head_map[url] = engine.HeadResponse(
+            200, {"x-goog-stored-content-length": "999"}, url
+        )
+        resolver = engine.Resolver(make_config(), http)
+        with self.assertRaises(engine.MirrorError):
+            resolver.resolve_one(engine.CODE_DEFS[0])
+
+    def test_code_manifest_version_mismatch_rejected(self):
+        http = code_http()
+        manifest_url = "https://downloads.claude.ai/claude-code-releases/2.1.302/manifest.json"
+        http.json_map[manifest_url]["version"] = "9.9.9"
+        resolver = engine.Resolver(make_config(), http)
+        with self.assertRaises(engine.MirrorError):
+            resolver.resolve_one(engine.CODE_DEFS[0])
+
+
 class NamingTests(unittest.TestCase):
     def test_desktop_friendly_names(self):
         version = "2.42304.0"
@@ -453,6 +534,23 @@ class NamingTests(unittest.TestCase):
                 "science-windows-x64": "Claude-Science-0.1.63-Windows-x64.exe",
                 "science-windows-arm64": "Claude-Science-0.1.63-Windows-arm64.exe",
                 "science-linux-x64": "Claude-Science-0.1.63-Linux-x64",
+            },
+        )
+
+    def test_code_friendly_names(self):
+        version = "2.1.302"
+        names = {d.id: d.friendly_name(version) for d in engine.CODE_DEFS}
+        self.assertEqual(
+            names,
+            {
+                "code-macos-apple-silicon": "Claude-Code-2.1.302-macOS-arm64",
+                "code-macos-intel": "Claude-Code-2.1.302-macOS-intel",
+                "code-windows-x64": "Claude-Code-2.1.302-Windows-x64.exe",
+                "code-windows-arm64": "Claude-Code-2.1.302-Windows-arm64.exe",
+                "code-linux-x64": "Claude-Code-2.1.302-Linux-x64",
+                "code-linux-x64-musl": "Claude-Code-2.1.302-Linux-x64-musl",
+                "code-linux-arm64": "Claude-Code-2.1.302-Linux-arm64",
+                "code-linux-arm64-musl": "Claude-Code-2.1.302-Linux-arm64-musl",
             },
         )
 
@@ -1085,17 +1183,38 @@ class PublishFlowTests(TempRootCase):
 # ---------------------------------------------------------------------------
 
 
+    def test_publish_code_creates_release_and_uploads_all_assets(self):
+        gh = FakeGh()
+        mirror = self.engine(http=code_http(), transfer=FakeTransfer(), gh=gh)
+        self.assertEqual(mirror.publish(["code"]), 0)
+        self.assertIn("code-v2.1.302", gh.created)
+        self.assertEqual(len(gh.uploaded), 9)
+        manifest = json.loads(
+            (self.root / "docs/data/manifest.json").read_text(encoding="utf-8")
+        )
+        self.assertEqual([p["id"] for p in manifest["products"]], ["claude-code"])
+        product = manifest["products"][0]
+        self.assertEqual(product["version"], "2.1.302")
+        self.assertEqual(len(product["artifacts"]), 8)
+        self.assertTrue(all(a["mirrored"] for a in product["artifacts"]))
+        self.assertTrue(
+            all("code-v2.1.302" in a["download_url"] for a in product["artifacts"])
+        )
+
+
 class VerifyTests(TempRootCase):
     def _valid_manifest(self):
         d = desktop_http()
         s = science_http()
+        c = code_http()
         http = FakeHttp(
-            {**d.json_map, **s.json_map},
-            {**d.head_map, **s.head_map},
-            {**d.range_map, **s.range_map},
+            {**d.json_map, **s.json_map, **c.json_map},
+            {**d.head_map, **s.head_map, **c.head_map},
+            {**d.range_map, **s.range_map, **c.range_map},
+            text_map={**c.text_map},
         )
         mirror = self.engine(http=http, transfer=FakeTransfer(), gh=FakeGh())
-        mirror.publish(["desktop", "science"])
+        mirror.publish(["desktop", "science", "code"])
         return json.loads((self.root / "docs/data/manifest.json").read_text())
 
     def test_valid_manifest_passes(self):

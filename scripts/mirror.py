@@ -47,9 +47,18 @@ VERSION_RE = re.compile(
     r"^[0-9]+(?:\.[0-9A-Za-z]+)+(?:[-+][0-9A-Za-z][0-9A-Za-z.-]*)?$"
 )
 
-PRODUCT_IDS = {"desktop": "claude-desktop", "science": "claude-science"}
-PRODUCT_ORDER = ["claude-desktop", "claude-science"]
-PRODUCT_NAMES = {"claude-desktop": "Claude Desktop", "claude-science": "Claude Science"}
+PRODUCT_IDS = {
+    "desktop": "claude-desktop",
+    "science": "claude-science",
+    "code": "claude-code",
+    "claude-code": "claude-code",
+}
+PRODUCT_ORDER = ["claude-desktop", "claude-science", "claude-code"]
+PRODUCT_NAMES = {
+    "claude-desktop": "Claude Desktop",
+    "claude-science": "Claude Science",
+    "claude-code": "Claude Code",
+}
 OS_ORDER = {"macOS": 0, "Windows": 1, "Linux": 2}
 
 
@@ -70,20 +79,26 @@ class ArtifactDef:
     arch: str
     variant: str
     suffix: str
-    kind: str  # "desktop" | "science"
-    endpoint_path: str = ""  # desktop: <platform>/<arch>/<variant>
+    kind: str  # "desktop" | "science" | "code"
+    endpoint_path: str = ""  # desktop: <platform>/<arch>/<variant>; code: <platform>
     alias: str = ""  # science: latest alias filename
     hash_group: str = ""  # science manifest group: dmg_sha256 | sha256
     hash_key: str = ""  # science manifest key: darwin-arm64 | windows-x64 | ...
 
     def friendly_name(self, version: str) -> str:
-        prefix = "Claude-Desktop" if self.kind == "desktop" else "Claude-Science"
+        prefix = {
+            "desktop": "Claude-Desktop",
+            "science": "Claude-Science",
+            "code": "Claude-Code",
+        }.get(self.kind, "Claude")
         return f"{prefix}-{version}-{self.suffix}"
 
     def latest_url(self, desktop_api: str, science_base: str) -> str:
         if self.kind == "desktop":
             return f"{desktop_api}/{self.endpoint_path}/latest"
-        return f"{science_base}/{self.alias}"
+        if self.kind == "science":
+            return f"{science_base}/{self.alias}"
+        return ""
 
 
 DESKTOP_DEFS: list[ArtifactDef] = [
@@ -170,11 +185,47 @@ SCIENCE_DEFS: list[ArtifactDef] = [
     ),
 ]
 
+CODE_DEFS: list[ArtifactDef] = [
+    ArtifactDef(
+        "code-macos-apple-silicon", "claude-code", "macOS", "Apple Silicon",
+        "Binary", "macOS-arm64", "code", endpoint_path="darwin-arm64",
+    ),
+    ArtifactDef(
+        "code-macos-intel", "claude-code", "macOS", "Intel",
+        "Binary", "macOS-intel", "code", endpoint_path="darwin-x64",
+    ),
+    ArtifactDef(
+        "code-windows-x64", "claude-code", "Windows", "x64",
+        "Binary", "Windows-x64.exe", "code", endpoint_path="win32-x64",
+    ),
+    ArtifactDef(
+        "code-windows-arm64", "claude-code", "Windows", "arm64",
+        "Binary", "Windows-arm64.exe", "code", endpoint_path="win32-arm64",
+    ),
+    ArtifactDef(
+        "code-linux-x64", "claude-code", "Linux", "x64",
+        "Binary", "Linux-x64", "code", endpoint_path="linux-x64",
+    ),
+    ArtifactDef(
+        "code-linux-x64-musl", "claude-code", "Linux", "x64 (musl)",
+        "Binary", "Linux-x64-musl", "code", endpoint_path="linux-x64-musl",
+    ),
+    ArtifactDef(
+        "code-linux-arm64", "claude-code", "Linux", "arm64",
+        "Binary", "Linux-arm64", "code", endpoint_path="linux-arm64",
+    ),
+    ArtifactDef(
+        "code-linux-arm64-musl", "claude-code", "Linux", "arm64 (musl)",
+        "Binary", "Linux-arm64-musl", "code", endpoint_path="linux-arm64-musl",
+    ),
+]
+
 DEFS_BY_PRODUCT: dict[str, list[ArtifactDef]] = {
     "claude-desktop": DESKTOP_DEFS,
     "claude-science": SCIENCE_DEFS,
+    "claude-code": CODE_DEFS,
 }
-ALL_DEFS: list[ArtifactDef] = DESKTOP_DEFS + SCIENCE_DEFS
+ALL_DEFS: list[ArtifactDef] = DESKTOP_DEFS + SCIENCE_DEFS + CODE_DEFS
 DEF_BY_ID: dict[str, ArtifactDef] = {d.id: d for d in ALL_DEFS}
 
 
@@ -191,9 +242,11 @@ class Config:
     site_dir: str
     desktop_api: str
     science_base: str
+    code_base: str
     source_site: str
     desktop_tag_prefix: str
     science_tag_prefix: str
+    code_tag_prefix: str
     max_asset_bytes: int
 
     @classmethod
@@ -208,9 +261,16 @@ class Config:
                 site_dir=str(raw.get("site_dir", "docs")),
                 desktop_api=str(source["desktop_api"]).rstrip("/"),
                 science_base=str(source["science_base"]).rstrip("/"),
+                code_base=str(
+                    source.get(
+                        "code_base",
+                        "https://downloads.claude.ai/claude-code-releases",
+                    )
+                ).rstrip("/"),
                 source_site=str(source["site"]).rstrip("/"),
                 desktop_tag_prefix=str(release.get("desktop_tag_prefix", "desktop-v")),
                 science_tag_prefix=str(release.get("science_tag_prefix", "science-v")),
+                code_tag_prefix=str(release.get("code_tag_prefix", "code-v")),
                 max_asset_bytes=int(
                     release.get("max_asset_bytes", DEFAULT_MAX_ASSET_BYTES)
                 ),
@@ -226,6 +286,7 @@ class Config:
         return {
             "claude-desktop": self.desktop_tag_prefix,
             "claude-science": self.science_tag_prefix,
+            "claude-code": self.code_tag_prefix,
         }
 
     @property
@@ -318,6 +379,25 @@ class UrllibHttp:
         if not isinstance(payload, dict):
             raise MirrorError(f"GET {url} returned a non-object JSON payload")
         return payload
+
+    def get_text(self, url: str) -> str:
+        for attempt in range(self.RETRIES):
+            try:
+                with self._request(url, "GET") as resp:
+                    body = resp.read()
+                break
+            except urllib.error.HTTPError as exc:
+                if exc.code in self.RETRYABLE_STATUS and attempt + 1 < self.RETRIES:
+                    time.sleep(self.retry_delay * (attempt + 1))
+                    continue
+                snippet = exc.read(300).decode("utf-8", "replace")
+                raise MirrorError(f"GET {url} failed: HTTP {exc.code} {snippet}") from exc
+            except (urllib.error.URLError, OSError, http.client.HTTPException) as exc:
+                self._network_retry(exc, attempt)
+        try:
+            return body.decode("utf-8").strip()
+        except UnicodeDecodeError as exc:
+            raise MirrorError(f"GET {url} returned non-UTF-8 text") from exc
 
     def head(self, url: str) -> HeadResponse:
         for attempt in range(self.RETRIES):
@@ -638,10 +718,14 @@ class Resolver:
         self.config = config
         self.http = http
         self._science_manifest_cache: dict[str, Any] | None = None
+        self._code_version_cache: str | None = None
+        self._code_manifest_cache: dict[str, Any] | None = None
 
     def resolve_one(self, definition: ArtifactDef) -> LiveArtifact:
         if definition.kind == "desktop":
             return self._resolve_desktop(definition)
+        if definition.kind == "code":
+            return self._resolve_code(definition)
         return self._resolve_science(definition)
 
     def _size_for(self, url: str, head: HeadResponse) -> int | None:
@@ -747,6 +831,72 @@ class Resolver:
             size=self._size_for(source_url, head),
             content_disposition=disposition,
             expected_sha256=self._science_expected_hash(definition, manifest),
+        )
+
+    def _code_version(self) -> str:
+        if self._code_version_cache is not None:
+            return self._code_version_cache
+        url = f"{self.config.code_base}/latest"
+        version = _validate_version(self.http.get_text(url), url)
+        self._code_version_cache = version
+        return version
+
+    def _code_manifest(self, version: str) -> dict[str, Any]:
+        if self._code_manifest_cache is not None:
+            return self._code_manifest_cache
+        url = f"{self.config.code_base}/{version}/manifest.json"
+        payload = self.http.get_json(url)
+        if str(payload.get("version", "")) != version:
+            raise MirrorError(
+                f"Claude Code manifest {url} reports version "
+                f"{payload.get('version')!r}, expected {version!r}"
+            )
+        platforms = payload.get("platforms")
+        if not isinstance(platforms, Mapping):
+            raise MirrorError(f"Claude Code manifest {url} has no platforms map")
+        self._code_manifest_cache = payload
+        return payload
+
+    def _resolve_code(self, definition: ArtifactDef) -> LiveArtifact:
+        version = self._code_version()
+        manifest = self._code_manifest(version)
+        platform = definition.endpoint_path
+        info = manifest["platforms"].get(platform)
+        if not isinstance(info, Mapping):
+            raise MirrorError(
+                f"Claude Code {version} has no platform {platform!r}"
+            )
+        default_binary = "claude.exe" if platform.startswith("win32") else "claude"
+        binary = str(info.get("binary") or default_binary)
+        checksum = str(info.get("checksum") or "").lower()
+        expected_size = info.get("size")
+        if not SHA256_RE.match(checksum):
+            raise MirrorError(
+                f"Claude Code manifest has no valid checksum for {platform}"
+            )
+        if not isinstance(expected_size, int) or expected_size <= 0:
+            raise MirrorError(
+                f"Claude Code manifest has no valid size for {platform}"
+            )
+        source_url = f"{self.config.code_base}/{version}/{platform}/{binary}"
+        head = self.http.head(source_url)
+        if head.status != 200:
+            raise MirrorError(
+                f"Claude Code binary {source_url} returned HTTP {head.status}"
+            )
+        actual_size = self._size_for(source_url, head)
+        if actual_size is not None and actual_size != expected_size:
+            raise MirrorError(
+                f"Claude Code binary {source_url} is {actual_size} bytes, "
+                f"manifest says {expected_size}"
+            )
+        return LiveArtifact(
+            definition=definition,
+            version=version,
+            source_url=source_url,
+            source_filename=binary,
+            size=expected_size,
+            expected_sha256=checksum,
         )
 
     def resolve_product(self, product_id: str, exclude: Iterable[str] = ()) -> LiveProduct:
@@ -1419,7 +1569,7 @@ class Mirror:
         if push:
             commit = True
 
-        selected = [PRODUCT_IDS[p] for p in products]
+        selected = list(dict.fromkeys(PRODUCT_IDS[p] for p in products))
         live_products: dict[str, LiveProduct] = {}
         for pid in selected:
             live_products[pid] = self.resolver.resolve_product(pid, excludes)
@@ -1886,7 +2036,7 @@ class Mirror:
 
 def parse_products(values: Sequence[str] | None) -> list[str]:
     if not values:
-        return ["desktop", "science"]
+        return ["desktop", "science", "code"]
     result: list[str] = []
     for value in values:
         for part in value.split(","):
@@ -1894,10 +2044,12 @@ def parse_products(values: Sequence[str] | None) -> list[str]:
             if not part:
                 continue
             if part not in PRODUCT_IDS:
-                raise MirrorError(f"unknown product {part!r} (choose desktop or science)")
+                raise MirrorError(
+                    f"unknown product {part!r} (choose desktop, science or code)"
+                )
             if part not in result:
                 result.append(part)
-    return result or ["desktop", "science"]
+    return result or ["desktop", "science", "code"]
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -1920,7 +2072,7 @@ def build_parser() -> argparse.ArgumentParser:
     sub = parser.add_subparsers(dest="command", required=True)
 
     probe = sub.add_parser("probe", help="resolve the live artifact matrix")
-    probe.add_argument("--product", action="append", metavar="desktop|science")
+    probe.add_argument("--product", action="append", metavar="desktop|science|code")
     probe.add_argument(
         "--json", action="store_true", dest="as_json",
         help="emit JSON (the default; kept for explicit scripting)",
@@ -1930,7 +2082,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
 
     publish = sub.add_parser("publish", help="publish changed artifacts and regenerate the manifest")
-    publish.add_argument("--product", action="append", metavar="desktop|science")
+    publish.add_argument("--product", action="append", metavar="desktop|science|code")
     publish.add_argument("--exclude", default="", help="comma-separated artifact ids to skip")
     publish.add_argument("--force", action="store_true", help="republish even when versions are unchanged")
     publish.add_argument("--dry-run", action="store_true", help="print the plan without downloading or writing")

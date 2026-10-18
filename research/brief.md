@@ -222,3 +222,27 @@ This supersedes any conflicting sentence above.
 9. **Expected totals:** 18 artifacts; 17 mirrored; desktop ~10.31 GB source, science
    ~0.64 GB; total ~10.95 GB before excluding the 2.22 GB relay-only asset
    (~8.73 GB actually uploaded).
+
+## Amendment 2 — Claude Code (2026-10-18)
+
+The mirror now covers a third product. This supersedes the inventory in Amendment 1.
+
+- Product id `claude-code`, display name `Claude Code`, tag prefix `code-v`.
+- Version discovery: `GET https://downloads.claude.ai/claude-code-releases/latest`
+  returns a plain-text version (currently `2.1.302`).
+- Build manifest: `GET .../claude-code-releases/<version>/manifest.json` with
+  `platforms.<platform>.{binary,checksum,size}`.
+- Eight native binaries (no installers): `darwin-arm64`, `darwin-x64`,
+  `win32-x64`, `win32-arm64`, `linux-x64`, `linux-x64-musl`, `linux-arm64`,
+  `linux-arm64-musl`. Source URL:
+  `.../<version>/<platform>/<binary>` (`claude` or `claude.exe`).
+- Official SHA-256 is taken from the build manifest and verified after download.
+- Sizes are ~268–290 MB each (~2.24 GB total); all are under the 2 GiB asset cap.
+- Friendly names: `Claude-Code-<version>-macOS-arm64`, `...-macOS-intel`,
+  `...-Windows-x64.exe`, `...-Windows-arm64.exe`, `...-Linux-x64`,
+  `...-Linux-x64-musl`, `...-Linux-arm64`, `...-Linux-arm64-musl`.
+- Inventory is now **26 artifacts: 25 mirrored + 1 relay-only**
+  (`windows-x64-offline`). Total mirror size is ~11.0 GB.
+- UI: the “sample data / not yet published” banner was removed at the user's
+  request. The fixture still carries `"sample": true` so the engine forces a full
+  publish; the site simply renders the fixture without a banner.
