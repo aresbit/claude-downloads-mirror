@@ -96,7 +96,6 @@
         <a href="#overview" data-i18n="navOverview">概览</a>
         <a href="#desktop" data-i18n="navDesktop">Claude Desktop</a>
         <a href="#science" data-i18n="navScience">Claude Science</a>
-        <a href="#verify" data-i18n="navVerify">校验与说明</a>
       </nav>
 
       <div class="header-actions">
@@ -115,9 +114,8 @@
   <main id="main" tabindex="-1" aria-busy="true">
     <section class="hero" id="top" aria-labelledby="hero-title">
       <div class="wrap">
-        <p class="eyebrow" data-i18n="heroEyebrow">社区镜像 · 手动维护</p>
         <h1 id="hero-title" data-i18n="heroTitle">Claude 桌面端下载镜像</h1>
-        <p class="lead" data-i18n="heroLead">downloads.claude.ai 的手动维护镜像。安装包托管在 GitHub Releases，本页只提供索引、文件大小与 SHA-256 校验值，不代理下载流量。</p>
+        <p class="lead" data-i18n="heroLead">Claude Desktop 与 Claude Science 安装包。</p>
         <div class="hero-meta">
           <span class="meta-item">
             <span class="meta-label" data-i18n="lastUpdated">清单更新时间</span>
@@ -133,7 +131,7 @@
           <svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-info"></use></svg>
           <div>
             <strong id="preview-title" data-i18n="previewTitle">本地预览 · 示例数据</strong>
-            <span id="preview-body" data-i18n="previewBody">当前清单仅用于布局验证，下载链接与校验值并非线上文件。</span>
+            <span id="preview-body" data-i18n="previewBody">发布后自动更新。</span>
           </div>
         </div>
       </div>
@@ -183,15 +181,15 @@
       <div class="wrap">
         <header class="product-head">
           <div class="product-heading">
-            <p class="product-kicker"><span class="dot" aria-hidden="true"></span><span data-i18n="desktopKicker">桌面客户端</span></p>
+            <p class="product-kicker"><span class="dot" aria-hidden="true"></span><span data-i18n="desktopKicker">桌面端</span></p>
             <h2 id="desktop-title"><span id="desktop-name" lang="en">Claude Desktop</span> <span class="version-pill t-num" id="desktop-version">—</span></h2>
-            <p class="product-desc" data-i18n="desktopDesc">官方桌面客户端，覆盖 macOS、Windows 与 Linux，含在线安装器、完整安装包与离线安装包。</p>
+            <p class="product-desc" data-i18n="desktopDesc">macOS · Windows · Linux</p>
           </div>
           <div class="product-actions">
             <time class="release-date t-num" id="desktop-released" hidden></time>
             <a class="btn btn-secondary" id="desktop-release" href="#" hidden target="_blank" rel="noopener noreferrer">
               <svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-external"></use></svg>
-              <span data-i18n="viewRelease">查看 GitHub Release</span>
+              <span data-i18n="viewRelease">Release</span>
             </a>
           </div>
         </header>
@@ -203,47 +201,19 @@
       <div class="wrap">
         <header class="product-head">
           <div class="product-heading">
-            <p class="product-kicker"><span class="dot" aria-hidden="true"></span><span data-i18n="scienceKicker">科学桌面应用</span></p>
+            <p class="product-kicker"><span class="dot" aria-hidden="true"></span><span data-i18n="scienceKicker">科学应用</span></p>
             <h2 id="science-title"><span id="science-name" lang="en">Claude Science</span> <span class="version-pill t-num" id="science-version">—</span></h2>
-            <p class="product-desc" data-i18n="scienceDesc">Claude Science 桌面应用，覆盖 macOS、Windows 与 Linux。</p>
+            <p class="product-desc" data-i18n="scienceDesc">macOS · Windows · Linux</p>
           </div>
           <div class="product-actions">
             <time class="release-date t-num" id="science-released" hidden></time>
             <a class="btn btn-secondary" id="science-release" href="#" hidden target="_blank" rel="noopener noreferrer">
               <svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-external"></use></svg>
-              <span data-i18n="viewRelease">查看 GitHub Release</span>
+              <span data-i18n="viewRelease">Release</span>
             </a>
           </div>
         </header>
         <div class="os-groups" id="science-groups"></div>
-      </div>
-    </section>
-
-    <section class="section" id="verify" aria-labelledby="verify-title">
-      <div class="wrap">
-        <header class="section-head">
-          <h2 id="verify-title" data-i18n="verifyTitle">校验下载</h2>
-          <p data-i18n="verifyLead">每个文件都提供 SHA-256。下载完成后先核对哈希，确认文件完整再安装。</p>
-        </header>
-        <div class="verify-grid">
-          <article class="panel">
-            <h3 data-i18n="verifyQuick">快速校验</h3>
-            <p class="cmd-label">macOS</p>
-            <div class="cmd"><code data-i18n="verifyMacCmd">shasum -a 256 &lt;文件名&gt;</code></div>
-            <p class="cmd-label">Linux</p>
-            <div class="cmd"><code data-i18n="verifyLinuxCmd">sha256sum &lt;文件名&gt;</code></div>
-            <p class="cmd-label" data-i18n="verifyWin">Windows PowerShell</p>
-            <div class="cmd"><code data-i18n="verifyWinCmd">Get-FileHash .\&lt;文件名&gt; -Algorithm SHA256</code></div>
-          </article>
-          <article class="panel">
-            <h3 data-i18n="aboutTitle">关于这个镜像</h3>
-            <ul class="about-list">
-              <li data-i18n="about1">清单由维护者手动运行发布脚本生成，不设自动更新，版本可能略晚于官方。</li>
-              <li data-i18n="about2">下载链接指向 GitHub Releases 中的固定版本资产，不经过第三方代理。</li>
-              <li data-i18n="about3">GitHub 单文件上限为 2 GiB；接近上限的离线安装包会在发布前按大小与 SHA-256 严格校验。</li>
-            </ul>
-          </article>
-        </div>
       </div>
     </section>
 
@@ -262,15 +232,15 @@
 
   <footer class="site-footer">
     <div class="wrap footer-inner">
-      <p data-i18n="footerDisclaimer">非官方镜像，与 Anthropic 无隶属关系。请优先从官方源下载。</p>
+      <p data-i18n="footerDisclaimer">非官方镜像 · 请优先从官方源下载。</p>
       <nav class="footer-links" aria-label="相关链接" data-i18n-aria="footerLinks">
         <a id="footer-repo" href="#" hidden target="_blank" rel="noopener noreferrer">
           <svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-external"></use></svg>
-          <span data-i18n="footerRepo">GitHub 仓库</span>
+          <span data-i18n="footerRepo">GitHub</span>
         </a>
         <a id="footer-source" href="#" hidden target="_blank" rel="noopener noreferrer">
           <svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-globe"></use></svg>
-          <span data-i18n="footerSource">官方下载源</span>
+          <span data-i18n="footerSource">官方源</span>
         </a>
       </nav>
     </div>

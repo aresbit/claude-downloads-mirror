@@ -19,39 +19,39 @@
       themeToLight: '切换到浅色模式',
       heroEyebrow: '社区镜像 · 手动维护',
       heroTitle: 'Claude 桌面端下载镜像',
-      heroLead: 'downloads.claude.ai 的手动维护镜像。安装包托管在 GitHub Releases，本页只提供索引、文件大小与 SHA-256 校验值，不代理下载流量。',
-      lastUpdated: '清单更新时间',
-      officialSource: '官方下载源',
-      previewTitle: '本地预览 · 示例数据',
-      previewBody: '当前清单仅用于布局验证，下载链接与校验值并非线上文件。',
-      previewTitlePlaceholder: '示例数据 / 尚未发布',
-      previewBodyPlaceholder: '清单中的 SHA-256 仍是占位值。维护者完成首次发布后，这里会显示真实的校验值。',
-      previewBodySample: '当前清单标记为示例数据，尚未发布。下载与校验信息仅用于布局预览；维护者完成首次真实发布后，此提示会消失。',
+      heroLead: 'Claude Desktop 与 Claude Science 安装包。',
+      lastUpdated: '更新',
+      officialSource: '官方源',
+      previewTitle: '示例数据 · 尚未发布',
+      previewBody: '仅用于布局预览。',
+      previewTitlePlaceholder: '示例数据 · 尚未发布',
+      previewBodyPlaceholder: '校验值为占位符。',
+      previewBodySample: '发布后自动更新。',
       overviewTitle: '概览',
-      statDesktop: 'Claude Desktop 最新版本',
-      statScience: 'Claude Science 最新版本',
-      statSize: '镜像总大小',
-      statArtifacts: '镜像包总数',
-      statDesktopMeta: '{n} 个镜像包',
-      statScienceMeta: '{n} 个镜像包',
-      statSizeMeta: '全部已镜像安装包',
+      statDesktop: 'Claude Desktop',
+      statScience: 'Claude Science',
+      statSize: '镜像大小',
+      statArtifacts: '镜像包',
+      statDesktopMeta: '{n} 个包',
+      statScienceMeta: '{n} 个包',
+      statSizeMeta: '已镜像',
       statArtifactsMeta: '{n} 个产品',
-      statSizeBreakdown: '{n} 个镜像包 · {r} 个官方源中转',
-      statSizeSimple: '{n} 个镜像包',
-      statCountBreakdown: '另有 {n} 个官方源中转 · {p} 个产品',
-      relayCountShort: '{n} 个官方源中转',
-      notInManifest: '当前清单未包含',
-      desktopKicker: '桌面客户端',
-      desktopDesc: '官方桌面客户端，覆盖 macOS、Windows 与 Linux，含在线安装器、完整安装包与离线安装包。',
-      scienceKicker: '科学桌面应用',
-      scienceDesc: 'Claude Science 桌面应用，覆盖 macOS、Windows 与 Linux。',
-      viewRelease: '查看 GitHub Release',
+      statSizeBreakdown: '{n} 个镜像 · {r} 个中转',
+      statSizeSimple: '{n} 个镜像',
+      statCountBreakdown: '另有 {n} 个中转',
+      relayCountShort: '{n} 个中转',
+      notInManifest: '未包含',
+      desktopKicker: '桌面端',
+      desktopDesc: 'macOS · Windows · Linux',
+      scienceKicker: '科学应用',
+      scienceDesc: 'macOS · Windows · Linux',
+      viewRelease: 'Release',
       releasedAt: '发布于 {date}',
       download: '下载',
       downloadAria: '下载 {file}',
-      missingLink: '链接缺失',
-      source: '源站',
-      sourceAria: '打开 {file} 的官方源站链接',
+      officialShort: '官方源',
+      officialAria: '从官方源下载 {file}',
+      missingLink: '缺失',
       fileHeader: '文件',
       sizeHeader: '大小',
       hashHeader: 'SHA-256',
@@ -60,7 +60,7 @@
       copyAria: '复制 {file} 的 SHA-256',
       copyToast: 'SHA-256 已复制',
       copied: '已复制',
-      copyFailed: '复制失败，请手动选择哈希',
+      copyFailed: '复制失败',
       manifestMissingTitle: '尚未找到清单',
       manifestMissingBody: '页面未加载 data/manifest.js，也没有可用的 data/manifest.json。维护者运行 python3 scripts/mirror.py publish 生成清单后，刷新此页即可。',
       manifestInvalidTitle: '清单无法读取',
@@ -79,13 +79,14 @@
       variantMsix: 'MSIX 安装包',
       variantDeb: 'DEB 安装包',
       variantOnline: '在线安装器',
-      offlineFlag: '离线安装包 · ~{size}',
-      relayBadge: '未镜像 · 超过 2 GiB',
-      relayDownload: '中转下载（官方源）',
-      relayAria: '通过官方源中转下载 {file}',
-      relayMissing: '中转链接缺失',
-      relayNoHash: '未镜像 · 无镜像校验值',
-      linuxBinaryLabel: 'Linux x64 · 命令行/二进制',
+      offlineFlag: '离线 · {size}',
+      relayBadge: '未镜像 · >2 GiB',
+      relayDownload: '官方源',
+      relayAria: '通过官方源下载 {file}',
+      relayMissing: '缺失',
+      relayNoHash: '—',
+      relayNoHashAria: '未镜像，无镜像校验值',
+      linuxBinaryLabel: 'Linux · CLI',
       verifyTitle: '校验下载',
       verifyLead: '每个镜像文件都提供 SHA-256。下载完成后先核对哈希，确认文件完整再安装；官方源中转条目由源站提供校验信息。',
       verifyQuick: '快速校验',
@@ -98,9 +99,9 @@
       about2: '下载链接指向 GitHub Releases 中的固定版本资产，不经过第三方代理。',
       about3: 'GitHub 单文件上限为 2 GiB。超过上限的安装包不镜像，改为链接官方源中转；接近上限的文件会在发布前按大小与 SHA-256 严格校验。',
       footerLinks: '相关链接',
-      footerDisclaimer: '非官方镜像，与 Anthropic 无隶属关系。请优先从官方源下载。',
-      footerRepo: 'GitHub 仓库',
-      footerSource: '官方下载源'
+      footerDisclaimer: '非官方镜像 · 请优先从官方源下载。',
+      footerRepo: 'GitHub',
+      footerSource: '官方源'
     },
     en: {
       pageTitle: 'Claude Downloads Mirror · Claude Desktop & Claude Science',
@@ -117,39 +118,39 @@
       themeToLight: 'Switch to light mode',
       heroEyebrow: 'COMMUNITY MIRROR · MANUALLY MAINTAINED',
       heroTitle: 'Claude desktop downloads mirror',
-      heroLead: 'A manually maintained mirror of downloads.claude.ai. Installers live in GitHub Releases; this page only provides the index, file sizes and SHA-256 checksums, and does not proxy download traffic.',
-      lastUpdated: 'Manifest updated',
-      officialSource: 'Official source',
-      previewTitle: 'Local preview · sample data',
-      previewBody: 'This manifest is a layout fixture. Download links and checksums do not refer to published files.',
-      previewTitlePlaceholder: 'Sample data / not yet published',
-      previewBodyPlaceholder: 'The manifest still contains placeholder SHA-256 values. Real checksums appear after the maintainer completes the first publish.',
-      previewBodySample: 'This manifest is marked as a sample and has not been published. Downloads and checksums are for layout preview only; this notice disappears after the first real publish.',
+      heroLead: 'Installers for Claude Desktop and Claude Science.',
+      lastUpdated: 'Updated',
+      officialSource: 'Official',
+      previewTitle: 'Sample data · not published',
+      previewBody: 'Layout preview only.',
+      previewTitlePlaceholder: 'Sample data · not published',
+      previewBodyPlaceholder: 'Checksums are placeholders.',
+      previewBodySample: 'Updates automatically after publish.',
       overviewTitle: 'Overview',
-      statDesktop: 'Latest Claude Desktop',
-      statScience: 'Latest Claude Science',
-      statSize: 'Total mirrored size',
-      statArtifacts: 'Mirrored packages',
-      statDesktopMeta: '{n} mirrored packages',
-      statScienceMeta: '{n} mirrored packages',
-      statSizeMeta: 'All mirrored installers',
+      statDesktop: 'Claude Desktop',
+      statScience: 'Claude Science',
+      statSize: 'Mirror size',
+      statArtifacts: 'Packages',
+      statDesktopMeta: '{n} packages',
+      statScienceMeta: '{n} packages',
+      statSizeMeta: 'Mirrored',
       statArtifactsMeta: '{n} products',
-      statSizeBreakdown: '{n} mirrored packages · {r} relay-only',
-      statSizeSimple: '{n} mirrored packages',
-      statCountBreakdown: 'Plus {n} relay-only · {p} products',
-      relayCountShort: '{n} relay-only',
-      notInManifest: 'Not in current manifest',
-      desktopKicker: 'Desktop client',
-      desktopDesc: 'The official desktop client for macOS, Windows and Linux, including online installers, full packages and offline installers.',
-      scienceKicker: 'Science desktop app',
-      scienceDesc: 'Claude Science desktop app for macOS, Windows and Linux.',
-      viewRelease: 'View GitHub Release',
+      statSizeBreakdown: '{n} mirrored · {r} relay',
+      statSizeSimple: '{n} mirrored',
+      statCountBreakdown: 'Plus {n} relay',
+      relayCountShort: '{n} relay',
+      notInManifest: 'Not included',
+      desktopKicker: 'Desktop',
+      desktopDesc: 'macOS · Windows · Linux',
+      scienceKicker: 'Science',
+      scienceDesc: 'macOS · Windows · Linux',
+      viewRelease: 'Release',
       releasedAt: 'Released {date}',
       download: 'Download',
       downloadAria: 'Download {file}',
-      missingLink: 'Link missing',
-      source: 'Source',
-      sourceAria: 'Open the official source link for {file}',
+      officialShort: 'Official',
+      officialAria: 'Download {file} from the official source',
+      missingLink: 'Missing',
       fileHeader: 'File',
       sizeHeader: 'Size',
       hashHeader: 'SHA-256',
@@ -158,7 +159,7 @@
       copyAria: 'Copy SHA-256 for {file}',
       copyToast: 'SHA-256 copied',
       copied: 'Copied',
-      copyFailed: 'Copy failed. Select the hash manually.',
+      copyFailed: 'Copy failed',
       manifestMissingTitle: 'Manifest not found',
       manifestMissingBody: 'The page could not load data/manifest.js or data/manifest.json. Run python3 scripts/mirror.py publish, then refresh.',
       manifestInvalidTitle: 'Manifest unreadable',
@@ -177,13 +178,14 @@
       variantMsix: 'MSIX package',
       variantDeb: 'DEB package',
       variantOnline: 'Online installer',
-      offlineFlag: 'Offline installer · ~{size}',
-      relayBadge: 'Not mirrored · over 2 GiB',
-      relayDownload: 'Relay download (official source)',
-      relayAria: 'Download {file} via the official source relay',
-      relayMissing: 'Relay link missing',
-      relayNoHash: 'Not mirrored · no mirror checksum',
-      linuxBinaryLabel: 'Linux x64 · CLI/binary',
+      offlineFlag: 'Offline · {size}',
+      relayBadge: 'Not mirrored · >2 GiB',
+      relayDownload: 'Official',
+      relayAria: 'Download {file} from the official source',
+      relayMissing: 'Missing',
+      relayNoHash: '—',
+      relayNoHashAria: 'Not mirrored; no checksum',
+      linuxBinaryLabel: 'Linux · CLI',
       verifyTitle: 'Verify downloads',
       verifyLead: 'Every mirrored file includes a SHA-256. Check the hash after downloading and before installing; relay-only entries rely on the official source for verification.',
       verifyQuick: 'Quick check',
@@ -196,9 +198,9 @@
       about2: 'Download links point to fixed-version assets in GitHub Releases and are not proxied by a third party.',
       about3: 'GitHub limits each asset to under 2 GiB. Oversized installers are not mirrored; they link to the official source via a relay, while near-limit files are validated before publishing.',
       footerLinks: 'Related links',
-      footerDisclaimer: 'Unofficial mirror, not affiliated with Anthropic. Prefer downloading from the official source.',
-      footerRepo: 'GitHub repository',
-      footerSource: 'Official source'
+      footerDisclaimer: 'Unofficial mirror · Prefer the official source.',
+      footerRepo: 'GitHub',
+      footerSource: 'Official'
     }
   };
 
@@ -519,53 +521,30 @@
     if (badges.childElementCount) idCell.appendChild(badges);
 
     var sizeCell = el('div', 'artifact-size');
-    sizeCell.setAttribute('role', 'group');
     sizeCell.setAttribute('aria-label', t('sizeHeader'));
     if (hasSize) {
       var sizeValue = el('span', 'size-value');
       sizeValue.textContent = formatBytes(size);
-      var sizeExact = el('span', 'size-bytes');
-      sizeExact.textContent = exactBytes(size);
+      sizeValue.title = exactBytes(size);
       sizeCell.appendChild(sizeValue);
-      sizeCell.appendChild(sizeExact);
     } else {
       var unknownSize = el('span', 'size-value');
       unknownSize.textContent = '—';
       sizeCell.appendChild(unknownSize);
     }
 
-    var source = safeHttpsUrl(artifact.source_url);
-    if (source) {
-      var sourceLink = el('a', 'source-link');
-      sourceLink.href = source;
-      sourceLink.target = '_blank';
-      sourceLink.rel = 'noopener noreferrer';
-      sourceLink.setAttribute('aria-label', t('sourceAria', { file: file }));
-      sourceLink.appendChild(icon('icon-external'));
-      var sourceText = el('span');
-      sourceText.textContent = t('source');
-      sourceLink.appendChild(sourceText);
-      sizeCell.appendChild(sourceLink);
-    }
+    var official = safeHttpsUrl(artifact.source_url);
 
     var hashCell = el('div', 'artifact-hash');
-    hashCell.setAttribute('role', 'group');
+    hashCell.setAttribute('aria-label', t('hashHeader'));
     if (mirrored) {
-      hashCell.setAttribute('aria-label', t('hashHeader'));
       var hash = readText(artifact.sha256);
-      var hashCode = el('code', 'hash t-code');
-      hashCode.textContent = hash || '—';
-      if (hash) hashCode.title = hash;
-      hashCell.appendChild(hashCode);
-
-      var copyButton = el('button', 'copy-btn');
+      var copyButton = el('button', 'hash-btn');
       copyButton.type = 'button';
       copyButton.setAttribute('aria-label', t('copyAria', { file: file }));
+      if (hash) copyButton.title = hash;
       copyButton.appendChild(icon('icon-copy'));
       copyButton.appendChild(icon('icon-check'));
-      var copyLabel = el('span');
-      copyLabel.textContent = t('copy');
-      copyButton.appendChild(copyLabel);
       if (hash) {
         copyButton.addEventListener('click', function () {
           handleCopy(copyButton, hash, file);
@@ -575,15 +554,15 @@
       }
       hashCell.appendChild(copyButton);
     } else {
-      hashCell.setAttribute('aria-label', t('relayNoHash'));
-      var relayNote = el('span', 'relay-note');
+      hashCell.setAttribute('aria-label', t('relayNoHashAria'));
+      var relayNote = el('span', 'hash-empty');
       relayNote.textContent = t('relayNoHash');
       hashCell.appendChild(relayNote);
     }
 
     var actionCell = el('div', 'artifact-action');
     if (!mirrored) {
-      var relay = safeRelayUrl(artifact.relay_url);
+      var relay = safeRelayUrl(artifact.relay_url) || official;
       if (relay) {
         var relayLink = el('a', 'btn btn-relay relay-btn');
         relayLink.href = relay;
@@ -619,6 +598,18 @@
         missing.setAttribute('aria-disabled', 'true');
         missing.textContent = t('missingLink');
         actionCell.appendChild(missing);
+      }
+      if (official) {
+        var officialLink = el('a', 'btn btn-official official-btn');
+        officialLink.href = official;
+        officialLink.target = '_blank';
+        officialLink.rel = 'noopener noreferrer';
+        officialLink.setAttribute('aria-label', t('officialAria', { file: file }));
+        officialLink.appendChild(icon('icon-external'));
+        var officialLabel = el('span');
+        officialLabel.textContent = t('officialShort');
+        officialLink.appendChild(officialLabel);
+        actionCell.appendChild(officialLink);
       }
     }
 
