@@ -1,143 +1,98 @@
-# Claude Downloads Mirror
+# Claude Downloads Index
 
-`downloads.claude.ai` 的手动维护镜像：**GitHub Pages 静态门户 + GitHub Releases 安装包托管**。
+自动追踪 `downloads.claude.ai` 官方最新版本的静态索引页：**GitHub Pages 门户 + 官方源直链**。
 
 - 门户：`docs/`（GitHub Pages）
-- 安装包：每个产品版本一个 GitHub Release（`desktop-v<版本>`、`science-v<版本>`、`code-v<版本>`）
 - 索引：`docs/data/manifest.json`（机器可读）与 `docs/data/manifest.js`（页面直接加载）
-- 更新：**手动执行发布脚本**，没有 cron、没有自动更新
+- 更新：**GitHub Actions 每 6 小时自动同步**官方最新版本（`.github/workflows/sync.yml`）
+- 下载：所有按钮直接指向 `downloads.claude.ai` 官方源，本站不托管安装包
 
-> 非官方镜像，与 Anthropic 无隶属关系。请优先从官方源下载。
-
-> **首次发布前**：仓库里的 `docs/data/manifest.json` 是带 `"sample": true` 的布局样例。运行一次 `publish` 后会被真实清单替换。
+> 非官方索引，与 Anthropic 无隶属关系。请优先从官方源下载。
 
 ## 当前内容
 
-| 产品 | 版本 | 安装包 |
+清单每次同步时从官方接口实时解析，覆盖：
+
+| 产品 | 来源 | 条目 |
 |---|---|---|
-| Claude Desktop | `2.42304.0` | macOS ×3、Windows ×8、Linux ×2 |
-| Claude Science | `0.1.63` | macOS ×2、Windows ×2、Linux ×1 |
-| Claude Code | `2.1.302` | macOS ×2、Windows ×2、Linux ×4（含 musl） |
+| Claude Desktop | `api.anthropic.com/api/desktop/...` | macOS ×3、Windows ×8、Linux ×2 |
+| Claude Science | `downloads.claude.ai/claude-science/latest` | macOS ×2、Windows ×2、Linux ×1 |
+| Claude Code | `downloads.claude.ai/claude-code-releases` | macOS ×2、Windows ×2、Linux ×4（含 musl） |
 
-合计 26 个条目：25 个镜像包 + 1 个官方源中转（`windows-x64-offline` 超过 GitHub 单文件 2 GiB 上限）。
+版本号随官方发布自动更新，无需人工修改页面。Claude Code 仍可使用官方安装脚本：
 
-Claude Code 条目是各平台的原生二进制（含 Linux musl 变体）；官方安装脚本仍可使用 `curl -fsSL https://claude.ai/install.sh | bash`。
+```bash
+curl -fsSL https://claude.ai/install.sh | bash
+```
 
-## 依赖
+## 工作原理
 
-- Python **3.10+**（脚本只用标准库）
-- `git`、`curl`
-- [`gh`](https://cli.github.com/) 并已登录（`gh auth login`，需要 `repo` 权限）
+定时任务执行：
+
+```bash
+python3 scripts/mirror.py sync --commit --push
+```
+
+`sync` 只做三件事：
+
+1. 解析官方最新版本与各平台下载直链（含 Science/Code 的官方 SHA-256）。
+2. 生成 `docs/data/manifest.json` / `manifest.js`，每条记录标记为 `mirrored: false`，`relay_url` 即官方直链。
+3. 版本未变时不写文件、不提交；版本变化时才提交并推送，GitHub Pages 随后自动重建。
+
+因此站点始终指向官方最新版本，也不会出现“按钮指向一个没上传的文件”的 404。
+
+## 本地使用
+
+依赖 Python 3.10+（仅标准库）。同步和校验都不需要 `gh`、`curl` 或登录：
+
+```bash
+python3 scripts/mirror.py sync --dry-run   # 只探测，打印将同步的内容
+python3 scripts/mirror.py sync             # 更新 docs/data/manifest.*
+python3 scripts/mirror.py verify           # 校验清单结构与直链
+python3 -m unittest scripts.test_mirror    # 单元测试（无网络）
+```
+
+只同步某个产品：
+
+```bash
+python3 scripts/mirror.py sync --product code
+```
+
+`--commit` / `--push` 可将生成的清单提交并推送（CI 使用）。
 
 ## 首次部署
 
-1. 在 GitHub 创建仓库（例如 `claude-downloads-mirror`），推送到 `main`。
-2. 修改 `mirrorrc.json`：
+1. 在 GitHub 创建仓库，推送到 `main`。
+2. 修改 `mirrorrc.json` 中的 `owner` / `repo`。
+3. 开启 Pages：**Settings → Pages → Build and deployment → Source: Deploy from a branch → Branch: `main` / `docs`**。`docs/.nojekyll` 已就位。免费计划需要仓库为 **public**；站点地址为 `https://<owner>.github.io/<repo>/`。
+4. 确认 **Settings → Actions → General → Workflow permissions** 为 **Read and write permissions**（定时任务要提交清单）。
+5. 手动触发一次 **Actions → Sync official Claude releases → Run workflow**。
 
-   ```json
-   {
-     "owner": "你的GitHub用户名",
-     "repo": "claude-downloads-mirror",
-     "branch": "main",
-     "site_dir": "docs"
-   }
-   ```
+## 可选：镜像安装包到 GitHub Releases
 
-3. 开启 Pages：仓库 **Settings → Pages → Build and deployment → Source: Deploy from a branch → Branch: `main` / `docs`**。`docs/.nojekyll` 已就位。免费计划的 GitHub Pages 需要仓库为 **public**；站点地址为 `https://<owner>.github.io/<repo>/`。
-4. 先探测、再演练，最后发布：
-
-   ```bash
-   python3 scripts/mirror.py probe --table
-   python3 scripts/mirror.py publish --dry-run
-   python3 scripts/mirror.py publish
-   ```
-
-   `publish` 会下载新版本安装包到 `.cache/downloads/`、校验大小与 SHA-256、创建/复用 GitHub Release、上传资产与 `SHA256SUMS.txt`，并重新生成 manifest。首次发布会下载约 **11 GB**，请预留磁盘与时间。
-
-5. 提交并推送生成的清单：
-
-   ```bash
-   git add docs/data docs/relay
-   git commit -m "Publish Claude Desktop 2.42304.0 / Claude Science 0.1.63 / Claude Code 2.1.302"
-   git push
-   ```
-
-6. 打开 `https://<owner>.github.io/<repo>/`。
-
-## 日常更新（手动）
-
-官方发布新版本后：
+仓库仍保留完整镜像能力（`publish`）。如果将来要把安装包托管到 GitHub Releases：
 
 ```bash
-python3 scripts/mirror.py probe --table          # 看看当前版本
-python3 scripts/mirror.py publish --dry-run      # 打印将执行的操作，不下载、不上传
-python3 scripts/mirror.py publish                # 下载 → 校验 → 发布 → 生成清单
-git add docs/data docs/relay && git commit -m "Update Claude installers" && git push
+python3 scripts/mirror.py publish --dry-run
+python3 scripts/mirror.py publish
 ```
 
-`publish` 是幂等的：版本未变时不会重复创建 Release 或重复上传；已有 Release 缺资产时只补传缺失项。
+它会下载新版本到 `.cache/downloads/`、校验大小与 SHA-256、创建 `desktop-v*` / `science-v*` / `code-v*` Release 并上传资产，同时生成镜像清单。注意：
 
-发布顺序是“先 Release、后清单”：只有资产上传并校验完成后才会写 `docs/data/manifest.json`，避免页面指向不存在的文件。两个产品线都不会被标记为仓库级 “Latest”（`gh release create --latest=false`）。
-
-发布后 GitHub Pages 通常需要 **10–15 分钟**生效：`manifest.json` 在 Pages CDN 缓存约 600 秒，查询参数不能绕过缓存。可轮询确认：
-
-```bash
-curl -fsS https://<owner>.github.io/<repo>/data/manifest.json \
-  | jq -r '.products[] | "\(.id) \(.version) \(.tag)"'
-```
-
-GitHub Release 的稳定下载 URL 支持 HTTP Range/断点续传；重定向后的签名 CDN 地址会过期，因此 manifest 永远只写 `github.com/.../releases/download/...`。
-
-常用参数：
-
-```bash
---product desktop|science|code   # 只处理某个产品
---exclude id,id            # 跳过指定 artifact
---force                    # 版本未变也重新上传（仅此时使用 --clobber）
---commit                   # 发布后本地提交 manifest 与 relay 页
---push                     # 提交并推送（隐含 --commit）
---dry-run                  # 只读探测 + 打印计划，不下载、不上传、不写文件
-```
-
-## 2 GiB 规则与中转
-
-GitHub Release 单文件要求 **严格小于 2 GiB（2,147,483,648 B）**。
-
-- 超限文件**不会上传、不会分卷**，而是记录为 `mirrored: false`，并生成
-  `docs/relay/<artifact-id>.html` 中转页，自动跳转到官方源，同时保留可见的兜底链接。
-- 当前唯一超限项：`windows-x64-offline`（2,220,697,207 B）。
-- `windows-arm64-offline`（2,142,449,767 B）仍在限制内，但余量只有约 5 MB；未来若超限会自动转为中转。
-- `python3 scripts/mirror.py verify` 会拒绝任何“标记为已镜像却 ≥ 2 GiB”的条目。
-
-## 校验
-
-```bash
-python3 scripts/mirror.py verify
-python3 scripts/mirror.py verify --allow-sample   # 首次发布前检查示例清单结构
-```
-
-`verify` 默认拒绝带 `"sample": true` 的示例清单，防止把假哈希部署上线；`--allow-sample` 只做结构检查，不可用于发布验收。
-
-每个 Release 附带 `SHA256SUMS.txt`。门户上每个已镜像文件也显示 SHA-256 与一键复制。下载后本地校验：
-
-```bash
-sha256sum <文件名>            # Linux
-shasum -a 256 <文件名>        # macOS
-Get-FileHash .\<文件名> -Algorithm SHA256   # Windows PowerShell
-```
-
-Claude Science 的哈希来自官方 `claude-science/latest/manifest.json`（DMG 用 `dmg_sha256`，EXE/Linux 用 `sha256`）。Claude Code 的哈希来自官方 `claude-code-releases/<版本>/manifest.json`。Claude Desktop 没有公开哈希，引擎在下载后计算并记录 SHA-256。
+- GitHub Release 单文件必须**严格小于 2 GiB**；超限条目会记为 `mirrored: false` 并生成 `docs/relay/<id>.html` 中转页。
+- 需要 `gh` 已登录（`repo` 权限）与 `curl`。
+- 镜像模式与自动同步模式共用同一个 manifest；再次运行 `sync` 会把清单切回官方直链模式。
 
 ## 目录结构
 
 ```text
-mirrorrc.json              # owner/repo/branch + 源站接口 + 上传上限
-scripts/mirror.py          # probe / publish / verify
+mirrorrc.json              # owner/repo/branch + 官方接口 + 上传上限
+.github/workflows/sync.yml # 每 6 小时自动同步官方最新版本
+scripts/mirror.py          # sync / probe / publish / verify
 scripts/test_mirror.py     # 标准库 unittest
 docs/index.html            # 门户
 docs/assets/               # 样式与前端逻辑
-docs/data/manifest.*       # 生成的清单（json 为权威，js 供页面加载）
-docs/relay/                # 超限资产的官方源中转页
+docs/data/manifest.*       # 自动生成的清单（json 为权威，js 供页面加载）
 research/                  # 源站清单、约束与评估记录（不发布）
 ```
 
@@ -145,16 +100,14 @@ research/                  # 源站清单、约束与评估记录（不发布）
 
 | 现象 | 处理 |
 |---|---|
+| Actions 没有提交清单 | 检查 Workflow permissions 是否为 read/write；版本未变时本来就不会提交 |
 | `claude.ai/api/...` 返回 403 “Just a moment...” | 不要用该域名；引擎使用 `api.anthropic.com/api/desktop/...` |
-| 下载出现 `CONNECT tunnel failed, response 502` | 代理瞬断；重新执行，下载会断点续传（`curl -C -`） |
-| `HEAD` 没有 `Content-Length` | 引擎回退到 `x-goog-stored-content-length` 或 `Range: bytes=0-0` |
-| `gh release upload` 很慢或中断 | 重新执行 `publish`；已存在资产会跳过，必要时加 `--force`（`--clobber`） |
 | Pages 404 | 确认 Settings → Pages 选择 `main` / `docs`，且 `docs/.nojekyll` 存在 |
-| 页面显示“尚未找到清单” | 尚未运行 `publish`，或 `docs/data/manifest.js` 未提交/推送 |
-| 2 GiB 报错 | 该资产应自动转为 relay；若 `verify` 报错，检查 manifest 的 `mirrored` 字段 |
+| 页面显示“尚未找到清单” | `docs/data/manifest.js` 未生成或未提交；运行 `sync` 后重试 |
+| 官方接口暂时不可用 | `sync` 会保留上一个可用产品的清单条目，并在日志里列出被跳过的条目 |
 
 ## 说明
 
-- 本项目只索引与镜像安装包，不修改、不重打包、不代理下载流量。
+- 本项目只索引官方下载地址，不修改、不重打包、不代理下载流量。
 - 门户不加载任何外部字体、脚本或统计服务。
-- 更新完全由维护者手动触发；版本可能略晚于官方。
+- 页面上的 SHA-256 来自官方清单（Claude Science / Claude Code）；Claude Desktop 官方未公开哈希，因此显示 `—`。

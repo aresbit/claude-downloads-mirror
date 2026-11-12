@@ -22,6 +22,7 @@ import http.client
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -976,23 +977,50 @@ def make_product_entry(
     live: LiveProduct,
     config: Config,
     artifacts: list[dict[str, Any]],
-    released_at: str,
+    released_at: str | None,
+    *,
+    release_links: bool = True,
 ) -> dict[str, Any]:
-    return {
+    entry: dict[str, Any] = {
         "id": live.id,
         "name": live.name,
         "version": live.version,
         "tag": live.tag,
-        "release_url": config.release_url(live.tag),
-        "released_at": released_at,
-        "artifacts": sort_artifacts(artifacts),
     }
+    if release_links:
+        entry["release_url"] = config.release_url(live.tag)
+        entry["released_at"] = released_at
+    entry["artifacts"] = sort_artifacts(artifacts)
+    return entry
+
+
+def make_official_entry(live: LiveArtifact) -> dict[str, Any]:
+    """Manifest entry for an installer that is only linked, never mirrored."""
+    entry: dict[str, Any] = {
+        "id": live.definition.id,
+        "os": live.definition.os,
+        "arch": live.definition.arch,
+        "variant": live.definition.variant,
+        "file": live.filename,
+        "size": live.size,
+        "mirrored": False,
+        "download_url": None,
+        "relay_url": live.source_url,
+        "source_url": live.source_url,
+    }
+    if live.expected_sha256:
+        entry["sha256"] = live.expected_sha256
+    return entry
 
 
 def build_manifest(
-    config: Config, products: Sequence[dict[str, Any]], generated_at: str
+    config: Config,
+    products: Sequence[dict[str, Any]],
+    generated_at: str,
+    *,
+    mode: str = "mirror",
 ) -> dict[str, Any]:
-    return {
+    manifest: dict[str, Any] = {
         "schema_version": SCHEMA_VERSION,
         "generated_at": generated_at,
         "mirror": {
@@ -1003,6 +1031,9 @@ def build_manifest(
         },
         "products": sort_products(products),
     }
+    if mode != "mirror":
+        manifest["mode"] = mode
+    return manifest
 
 
 def atomic_write_text(path: Path, text: str) -> None:
@@ -1270,6 +1301,10 @@ def verify_manifest(
         return ["manifest: sample fixture; run publish first"]
     if manifest.get("schema_version") != SCHEMA_VERSION:
         errors.append(f"manifest: schema_version must be {SCHEMA_VERSION}")
+    mode = manifest.get("mode", "mirror")
+    if mode not in ("mirror", "official"):
+        errors.append("manifest: mode must be 'mirror' or 'official'")
+    official = mode == "official"
     if not _parse_timestamp(manifest.get("generated_at")):
         errors.append("manifest: generated_at must be a UTC ISO-8601 timestamp ending in Z")
 
@@ -1330,10 +1365,18 @@ def verify_manifest(
             if isinstance(owner, str) and isinstance(repo, str) and tag
             else None
         )
-        if expected_release and product.get("release_url") != expected_release:
+        if official:
+            release_url = product.get("release_url")
+            if release_url is not None and not (
+                isinstance(release_url, str) and release_url.startswith("https://")
+            ):
+                errors.append(f"{label}: release_url must be an https URL when present")
+        elif expected_release and product.get("release_url") != expected_release:
             errors.append(f"{label}: release_url must be {expected_release!r}")
-        if not _parse_timestamp(product.get("released_at")):
-            errors.append(f"{label}: released_at must be a UTC ISO-8601 timestamp ending in Z")
+        released_at = product.get("released_at")
+        if not official or released_at is not None:
+            if not _parse_timestamp(released_at):
+                errors.append(f"{label}: released_at must be a UTC ISO-8601 timestamp ending in Z")
 
         artifacts = product.get("artifacts")
         if not isinstance(artifacts, list) or not artifacts:
@@ -1374,7 +1417,7 @@ def verify_manifest(
                 seen_files.add(filename)
             size = artifact.get("size")
             size_valid = _is_int(size) and size > 0
-            if not size_valid:
+            if not size_valid and not (official and size is None):
                 errors.append(f"{awhere}: size must be a positive integer")
             mirrored = artifact.get("mirrored")
             if not isinstance(mirrored, bool):
@@ -1406,16 +1449,27 @@ def verify_manifest(
                 if "relay_url" in artifact:
                     errors.append(f"{awhere}: mirrored artifacts must not have relay_url")
             else:
-                if "sha256" in artifact:
+                if not official and "sha256" in artifact:
                     errors.append(
                         f"{awhere}: relay-only artifacts must omit sha256 "
                         "(the file is intentionally not downloaded)"
                     )
+                if official and "sha256" in artifact:
+                    if not isinstance(sha, str) or not SHA256_RE.match(sha):
+                        errors.append(f"{awhere}: sha256 must be 64 lowercase hex characters")
                 if download_url is not None:
                     errors.append(
                         f"{awhere}: relay-only artifacts must have download_url: null"
                     )
-                if artifact.get("relay_url") != relay_url_for(aid):
+                relay_url = artifact.get("relay_url")
+                if official:
+                    if not isinstance(relay_url, str) or not relay_url.startswith(
+                        ("https://", "http://")
+                    ):
+                        errors.append(
+                            f"{awhere}: relay_url must be an http(s) official URL"
+                        )
+                elif relay_url != relay_url_for(aid):
                     errors.append(
                         f"{awhere}: relay_url must be {relay_url_for(aid)!r}"
                     )
@@ -1661,6 +1715,139 @@ class Mirror:
             self._push(plan)
         self._print_plan(plan)
         return 0
+
+    # -- sync (official-source links only) --------------------------------
+
+    def sync(
+        self,
+        products: Sequence[str],
+        *,
+        commit: bool = False,
+        push: bool = False,
+        dry_run: bool = False,
+    ) -> int:
+        """Refresh the manifest with the latest official release links.
+
+        Nothing is downloaded or uploaded: every artifact points straight at
+        the official source. This is the mode used by the scheduled workflow.
+        """
+        if push:
+            commit = True
+
+        selected = list(dict.fromkeys(PRODUCT_IDS[p] for p in products))
+        existing = load_manifest(self.root, self.config)
+        existing_by_id = {
+            p.get("id"): p
+            for p in (existing or {}).get("products", [])
+            if isinstance(p, dict)
+        }
+
+        plan: list[str] = []
+        entries: dict[str, dict[str, Any]] = {}
+
+        for pid in PRODUCT_ORDER:
+            if pid not in selected:
+                old = existing_by_id.get(pid)
+                if old:
+                    entries[pid] = old
+                continue
+
+            lives: list[LiveArtifact] = []
+            failures = 0
+            for definition in DEFS_BY_PRODUCT[pid]:
+                try:
+                    lives.append(self.resolver.resolve_one(definition))
+                except MirrorError as exc:
+                    failures += 1
+                    plan.append(f"{pid}/{definition.id}: skipped ({exc})")
+            if not lives:
+                plan.append(f"{pid}: no artifacts resolved; keeping previous entry")
+                old = existing_by_id.get(pid)
+                if old:
+                    entries[pid] = old
+                continue
+
+            versions = sorted({live.version for live in lives})
+            version = versions[0]
+            if len(versions) > 1:
+                plan.append(
+                    f"{pid}: mixed versions ({', '.join(versions)}); using {version}"
+                )
+            tag = self.config.tag_prefixes[pid] + version
+            product = LiveProduct(pid, version, tag, lives)
+            artifacts = [make_official_entry(live) for live in lives]
+            entries[pid] = make_product_entry(
+                product, self.config, artifacts, None, release_links=False
+            )
+            plan.append(
+                f"{pid}: {version} ({len(artifacts)} official link(s)"
+                + (f", {failures} skipped" if failures else "")
+                + ")"
+            )
+
+        if not entries:
+            plan.append("no products resolved; manifest unchanged")
+            self._print_plan(plan)
+            return 1 if not existing else 0
+
+        manifest = build_manifest(
+            self.config,
+            [entries[pid] for pid in PRODUCT_ORDER if pid in entries],
+            iso_now(self.clock),
+            mode="official",
+        )
+        errors = verify_manifest(manifest, self.config)
+        if errors:
+            raise MirrorError(
+                "generated manifest failed verification:\n  " + "\n  ".join(errors)
+            )
+
+        previous = dict(existing) if existing else None
+        current = dict(manifest)
+        if previous is not None:
+            previous.pop("generated_at", None)
+            current.pop("generated_at", None)
+        if previous == current:
+            plan.append("no changes; manifest unchanged")
+            self._print_plan(plan)
+            return 0
+
+        if dry_run:
+            plan.append("dry run: no manifest writes performed")
+            self._print_plan(plan)
+            return 0
+
+        json_path, js_path = write_manifest(self.root, self.config, manifest)
+        plan.append(f"wrote {json_path.relative_to(self.root)}")
+        plan.append(f"wrote {js_path.relative_to(self.root)}")
+
+        relay_dir = self.root / self.config.site_dir / "relay"
+        if relay_dir.exists():
+            shutil.rmtree(relay_dir)
+            plan.append(f"removed {relay_dir.relative_to(self.root)} (links only)")
+
+        if commit:
+            self._commit_site(plan)
+        if push:
+            self._push(plan)
+        self._print_plan(plan)
+        return 0
+
+    def _commit_site(self, plan: list[str]) -> None:
+        site_dir = self.root / self.config.site_dir
+        result = self.runner.run(
+            ["git", "add", "-A", str(site_dir.relative_to(self.root))],
+            cwd=self.root,
+        )
+        if result.returncode != 0:
+            raise MirrorError(f"git add failed: {result.stderr.strip()}")
+        result = self.runner.run(
+            ["git", "commit", "-m", "mirror: sync official release links"],
+            cwd=self.root,
+        )
+        if result.returncode != 0:
+            raise MirrorError(f"git commit failed: {result.stderr.strip()}")
+        plan.append("committed manifest update")
 
     def _prepare_product(
         self,
@@ -1981,7 +2168,9 @@ class Mirror:
         if not errors:
             for product in manifest.get("products", []):
                 for artifact in product.get("artifacts", []):
-                    if artifact.get("mirrored") is False:
+                    if artifact.get("mirrored") is False and str(
+                        artifact.get("relay_url") or ""
+                    ).startswith("relay/"):
                         page = relay_page_path(
                             self.root, self.config, str(artifact.get("id"))
                         )
@@ -2022,6 +2211,12 @@ class Mirror:
             for a in p["artifacts"]
             if a.get("mirrored", True)
         )
+        if manifest.get("mode") == "official":
+            print(
+                f"manifest OK: {len(products)} product(s), "
+                f"{artifact_count} official link(s)"
+            )
+            return 0
         print(
             f"manifest OK: {len(products)} product(s), {artifact_count} artifact(s), "
             f"{mirrored_count} mirrored, {artifact_count - mirrored_count} relay-only"
@@ -2055,7 +2250,11 @@ def parse_products(values: Sequence[str] | None) -> list[str]:
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="mirror.py",
-        description="Mirror Claude Desktop/Science installers to GitHub Releases.",
+        description=(
+            "Track Claude Desktop/Science/Code releases. `sync` writes a "
+            "links-only manifest from the official source; `publish` mirrors "
+            "installers to GitHub Releases."
+        ),
     )
     parser.add_argument(
         "--root",
@@ -2088,6 +2287,18 @@ def build_parser() -> argparse.ArgumentParser:
     publish.add_argument("--dry-run", action="store_true", help="print the plan without downloading or writing")
     publish.add_argument("--commit", action="store_true", help="git commit the generated manifest files")
     publish.add_argument(
+        "--push", action="store_true",
+        help="commit and git push the manifest (never implied otherwise)",
+    )
+
+    sync = sub.add_parser(
+        "sync",
+        help="refresh the manifest with official links (no downloads or uploads)",
+    )
+    sync.add_argument("--product", action="append", metavar="desktop|science|code")
+    sync.add_argument("--dry-run", action="store_true", help="print the plan without writing")
+    sync.add_argument("--commit", action="store_true", help="git commit the generated manifest")
+    sync.add_argument(
         "--push", action="store_true",
         help="commit and git push the manifest (never implied otherwise)",
     )
@@ -2134,6 +2345,14 @@ def main(argv: Sequence[str] | None = None) -> int:
                     commit=args.commit,
                     push=args.push,
                 )
+        if args.command == "sync":
+            products = parse_products(args.product)
+            return mirror.sync(
+                products,
+                commit=args.commit,
+                push=args.push,
+                dry_run=args.dry_run,
+            )
         if args.command == "verify":
             return mirror.verify(allow_sample=args.allow_sample)
     except MirrorError as exc:

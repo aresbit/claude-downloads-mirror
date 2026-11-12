@@ -1,0 +1,44 @@
+name: Sync official Claude releases
+
+on:
+  schedule:
+    # Every 6 hours. The run is a no-op unless a version actually changed.
+    - cron: "23 */6 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - scripts/mirror.py
+      - scripts/test_mirror.py
+      - mirrorrc.json
+      - .github/workflows/sync.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: mirror-sync
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run unit tests
+        run: python3 -m unittest scripts.test_mirror
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Sync manifest from downloads.claude.ai
+        run: python3 scripts/mirror.py sync --commit --push

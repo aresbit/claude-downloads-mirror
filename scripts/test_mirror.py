@@ -1458,5 +1458,124 @@ class ProbeTests(TempRootCase):
         self.assertEqual(len(products[0]["artifacts"]), 12)
 
 
+class SyncTests(TempRootCase):
+    """Official-source links-only mode used by the scheduled workflow."""
+
+    def _sync(self, http=None, **kwargs):
+        transfer = FakeTransfer()
+        gh = FakeGh()
+        runner = FakeRunner()
+        mirror = self.engine(
+            http=http or desktop_http(), transfer=transfer, gh=gh, runner=runner
+        )
+        rc = mirror.sync(["desktop"], **kwargs)
+        return rc, transfer, gh, runner, mirror
+
+    def _manifest(self):
+        return json.loads((self.root / "docs/data/manifest.json").read_text())
+
+    def test_sync_writes_official_links_only(self):
+        rc, transfer, gh, _, mirror = self._sync()
+        self.assertEqual(rc, 0)
+        self.assertEqual(transfer.calls, [])
+        self.assertEqual(gh.created, [])
+        self.assertEqual(gh.uploaded, [])
+
+        manifest = self._manifest()
+        self.assertEqual(manifest["mode"], "official")
+        self.assertEqual(manifest["generated_at"], "2026-10-17T08:30:00Z")
+        product = manifest["products"][0]
+        self.assertEqual(product["version"], "2.42304.0")
+        self.assertNotIn("release_url", product)
+        self.assertNotIn("released_at", product)
+        self.assertEqual(len(product["artifacts"]), len(engine.DESKTOP_DEFS))
+
+        for artifact in product["artifacts"]:
+            self.assertFalse(artifact["mirrored"])
+            self.assertIsNone(artifact["download_url"])
+            self.assertEqual(artifact["relay_url"], artifact["source_url"])
+            self.assertTrue(artifact["source_url"].startswith("https://downloads.claude.ai/"))
+            self.assertNotIn("sha256", artifact)
+
+        self.assertEqual(engine.verify_manifest(manifest, self.config), [])
+        self.assertEqual(mirror.verify(), 0)
+
+    def test_sync_keeps_official_checksums(self):
+        science = science_http()
+        code = code_http()
+        http = FakeHttp(
+            {**science.json_map, **code.json_map},
+            {**science.head_map, **code.head_map},
+            {**science.range_map, **code.range_map},
+            {**science.text_map, **code.text_map},
+        )
+        transfer = FakeTransfer()
+        mirror = self.engine(http=http, transfer=transfer)
+        self.assertEqual(mirror.sync(["science", "code"]), 0)
+        self.assertEqual(transfer.calls, [])
+
+        manifest = self._manifest()
+        self.assertEqual(manifest["mode"], "official")
+        artifacts = [a for p in manifest["products"] for a in p["artifacts"]]
+        self.assertEqual(len(artifacts), len(engine.SCIENCE_DEFS) + len(engine.CODE_DEFS))
+        for artifact in artifacts:
+            self.assertRegex(artifact["sha256"], r"^[0-9a-f]{64}$")
+            self.assertFalse(artifact["mirrored"])
+        self.assertEqual(engine.verify_manifest(manifest, self.config), [])
+
+    def test_sync_dry_run_writes_nothing(self):
+        rc, transfer, gh, _, _ = self._sync(dry_run=True)
+        self.assertEqual(rc, 0)
+        self.assertEqual(transfer.calls, [])
+        self.assertEqual(gh.created, [])
+        self.assertFalse((self.root / "docs/data/manifest.json").exists())
+        self.assertFalse((self.root / "docs/data/manifest.js").exists())
+
+    def test_sync_removes_stale_relay_pages(self):
+        relay = self.root / "docs/relay/windows-x64-offline.html"
+        relay.parent.mkdir(parents=True)
+        relay.write_text("<html></html>")
+        rc, _, _, _, _ = self._sync()
+        self.assertEqual(rc, 0)
+        self.assertFalse(relay.parent.exists())
+
+    def test_sync_tolerates_partial_resolution_failure(self):
+        http = desktop_http()
+        http.json_map.pop(
+            "https://api.anthropic.com/api/desktop/darwin/universal/dmg/latest"
+        )
+        rc, _, _, _, _ = self._sync(http=http)
+        self.assertEqual(rc, 0)
+        product = self._manifest()["products"][0]
+        self.assertEqual(len(product["artifacts"]), len(engine.DESKTOP_DEFS) - 1)
+
+    def test_sync_preserves_unselected_products(self):
+        first = self.engine(http=desktop_http())
+        self.assertEqual(first.sync(["desktop"]), 0)
+        science = science_http()
+        second = self.engine(http=science)
+        self.assertEqual(second.sync(["science"]), 0)
+        products = self._manifest()["products"]
+        self.assertEqual(
+            [p["id"] for p in products], ["claude-desktop", "claude-science"]
+        )
+
+    def test_sync_is_idempotent(self):
+        first = self.engine(http=desktop_http())
+        self.assertEqual(first.sync(["desktop"]), 0)
+        manifest = self.root / "docs/data/manifest.json"
+        before = manifest.read_bytes()
+        second = self.engine(http=desktop_http())
+        self.assertEqual(second.sync(["desktop"]), 0)
+        self.assertEqual(manifest.read_bytes(), before)
+
+    def test_verify_rejects_official_entry_without_direct_link(self):
+        self._sync()
+        manifest = self._manifest()
+        manifest["products"][0]["artifacts"][0]["relay_url"] = None
+        errors = engine.verify_manifest(manifest, self.config)
+        self.assertTrue(any("relay_url" in error for error in errors), errors)
+
+
 if __name__ == "__main__":
     unittest.main()

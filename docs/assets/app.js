@@ -8,7 +8,7 @@
       pageTitle: 'Claude 下载镜像 · Desktop · Science · Code',
       skipLink: '跳到主要内容',
       brand: 'Claude 下载镜像',
-      brandTag: '手动维护',
+      brandTag: '自动追踪官方最新',
       navLabel: '页面导航',
       navOverview: '概览',
       navDesktop: 'Claude Desktop',
@@ -17,7 +17,7 @@
       langLabel: '切换语言',
       themeToDark: '切换到深色模式',
       themeToLight: '切换到浅色模式',
-      heroEyebrow: '社区镜像 · 手动维护',
+      heroEyebrow: '社区索引 · 自动追踪官方最新',
       heroTitle: 'Claude 下载镜像',
       heroLead: 'Claude Desktop · Claude Science · Claude Code',
       lastUpdated: '更新',
@@ -31,17 +31,18 @@
       statDesktop: 'Claude Desktop',
       statScience: 'Claude Science',
       statCode: 'Claude Code',
-      statSize: '镜像大小',
+      statSize: '安装包总量',
       statArtifacts: '镜像包',
-      statDesktopMeta: '{n} 个包',
-      statScienceMeta: '{n} 个包',
-      statCodeMeta: '{n} 个包',
-      statSizeMeta: '已镜像',
+      statDesktopMeta: '{n} 个安装包',
+      statScienceMeta: '{n} 个安装包',
+      statCodeMeta: '{n} 个安装包',
+      statSizeMeta: '官方源直链',
+      statSizeMetaCount: '{n} 个安装包 · 官方源',
       statArtifactsMeta: '{n} 个产品',
-      statSizeBreakdown: '{n} 个镜像 · {r} 个中转',
-      statSizeSimple: '{n} 个镜像',
+      statSizeBreakdown: '{n} 个安装包 · {r} 条官方直链',
+      statSizeSimple: '{n} 个安装包',
       statCountBreakdown: '另有 {n} 个中转',
-      relayCountShort: '{n} 个中转',
+      relayCountShort: '{n} 条官方直链',
       notInManifest: '未包含',
       desktopKicker: '桌面端',
       desktopDesc: 'macOS · Windows · Linux',
@@ -51,24 +52,22 @@
       codeDesc: 'macOS · Linux · Windows',
       viewRelease: 'Release',
       releasedAt: '发布于 {date}',
-      download: '下载',
-      downloadAria: '下载 {file}',
       officialShort: '官方源',
       officialAria: '从官方源下载 {file}',
       missingLink: '缺失',
       fileHeader: '文件',
       sizeHeader: '大小',
       hashHeader: 'SHA-256',
-      downloadHeader: '下载',
+      downloadHeader: '官方源',
       copy: '复制',
       copyAria: '复制 {file} 的 SHA-256',
       copyToast: 'SHA-256 已复制',
       copied: '已复制',
       copyFailed: '复制失败',
       manifestMissingTitle: '尚未找到清单',
-      manifestMissingBody: '页面未加载 data/manifest.js，也没有可用的 data/manifest.json。维护者运行 python3 scripts/mirror.py publish 生成清单后，刷新此页即可。',
+      manifestMissingBody: '页面未加载 data/manifest.js，也没有可用的 data/manifest.json。运行 python3 scripts/mirror.py sync 生成清单后，刷新此页即可。',
       manifestInvalidTitle: '清单无法读取',
-      manifestInvalidBody: '已加载的清单不是有效的 schema v1 数据。请重新运行发布脚本生成清单。',
+      manifestInvalidBody: '已加载的清单不是有效的 schema v1 数据。请重新运行同步脚本生成清单。',
       productMissingTitle: '清单未包含此产品',
       productMissingBody: '当前清单中没有该产品的条目，因此不显示下载链接。',
       noArtifacts: '此产品暂时没有可用安装包。',
@@ -85,7 +84,6 @@
       variantDeb: 'DEB 安装包',
       variantOnline: '在线安装器',
       offlineFlag: '离线 · {size}',
-      relayBadge: '未镜像 · >2 GiB',
       relayDownload: '官方源',
       relayAria: '通过官方源下载 {file}',
       relayMissing: '缺失',
@@ -100,9 +98,9 @@
       verifyLinuxCmd: 'sha256sum <文件名>',
       verifyWinCmd: 'Get-FileHash .\\<文件名> -Algorithm SHA256',
       aboutTitle: '关于这个镜像',
-      about1: '清单由维护者手动运行发布脚本生成，不设自动更新，版本可能略晚于官方。',
-      about2: '下载链接指向 GitHub Releases 中的固定版本资产，不经过第三方代理。',
-      about3: 'GitHub 单文件上限为 2 GiB。超过上限的安装包不镜像，改为链接官方源中转；接近上限的文件会在发布前按大小与 SHA-256 严格校验。',
+      about1: '清单由定时任务自动同步官方最新版本，无需手动发布。',
+      about2: '所有下载链接直接指向 downloads.claude.ai 官方源，本站不托管安装包。',
+      about3: 'GitHub 仓库仅托管这个静态索引页；安装包始终来自官方源。',
       footerLinks: '相关链接',
       footerDisclaimer: '非官方镜像 · 请优先从官方源下载。',
       footerRepo: 'GitHub',
@@ -112,7 +110,7 @@
       pageTitle: 'Claude Downloads Mirror · Desktop · Science · Code',
       skipLink: 'Skip to main content',
       brand: 'Claude Downloads Mirror',
-      brandTag: 'Manual mirror',
+      brandTag: 'Auto-tracked official releases',
       navLabel: 'Page navigation',
       navOverview: 'Overview',
       navDesktop: 'Claude Desktop',
@@ -121,7 +119,7 @@
       langLabel: 'Language',
       themeToDark: 'Switch to dark mode',
       themeToLight: 'Switch to light mode',
-      heroEyebrow: 'COMMUNITY MIRROR · MANUALLY MAINTAINED',
+      heroEyebrow: 'COMMUNITY INDEX · AUTO-TRACKED OFFICIAL RELEASES',
       heroTitle: 'Claude downloads mirror',
       heroLead: 'Claude Desktop · Claude Science · Claude Code',
       lastUpdated: 'Updated',
@@ -135,17 +133,18 @@
       statDesktop: 'Claude Desktop',
       statScience: 'Claude Science',
       statCode: 'Claude Code',
-      statSize: 'Mirror size',
+      statSize: 'Total size',
       statArtifacts: 'Packages',
       statDesktopMeta: '{n} packages',
       statScienceMeta: '{n} packages',
       statCodeMeta: '{n} packages',
-      statSizeMeta: 'Mirrored',
+      statSizeMeta: 'Official links',
+      statSizeMetaCount: '{n} packages · official source',
       statArtifactsMeta: '{n} products',
-      statSizeBreakdown: '{n} mirrored · {r} relay',
-      statSizeSimple: '{n} mirrored',
+      statSizeBreakdown: '{n} packages · {r} official links',
+      statSizeSimple: '{n} packages',
       statCountBreakdown: 'Plus {n} relay',
-      relayCountShort: '{n} relay',
+      relayCountShort: '{n} official links',
       notInManifest: 'Not included',
       desktopKicker: 'Desktop',
       desktopDesc: 'macOS · Windows · Linux',
@@ -155,24 +154,22 @@
       codeDesc: 'macOS · Linux · Windows',
       viewRelease: 'Release',
       releasedAt: 'Released {date}',
-      download: 'Download',
-      downloadAria: 'Download {file}',
       officialShort: 'Official',
       officialAria: 'Download {file} from the official source',
       missingLink: 'Missing',
       fileHeader: 'File',
       sizeHeader: 'Size',
       hashHeader: 'SHA-256',
-      downloadHeader: 'Download',
+      downloadHeader: 'Official',
       copy: 'Copy',
       copyAria: 'Copy SHA-256 for {file}',
       copyToast: 'SHA-256 copied',
       copied: 'Copied',
       copyFailed: 'Copy failed',
       manifestMissingTitle: 'Manifest not found',
-      manifestMissingBody: 'The page could not load data/manifest.js or data/manifest.json. Run python3 scripts/mirror.py publish, then refresh.',
+      manifestMissingBody: 'The page could not load data/manifest.js or data/manifest.json. Run python3 scripts/mirror.py sync, then refresh.',
       manifestInvalidTitle: 'Manifest unreadable',
-      manifestInvalidBody: 'The loaded manifest is not valid schema v1 data. Regenerate it with the publish script.',
+      manifestInvalidBody: 'The loaded manifest is not valid schema v1 data. Regenerate it with the sync script.',
       productMissingTitle: 'Product missing from manifest',
       productMissingBody: 'This manifest has no entry for the product, so no download links are shown.',
       noArtifacts: 'No installers are available for this product yet.',
@@ -189,7 +186,6 @@
       variantDeb: 'DEB package',
       variantOnline: 'Online installer',
       offlineFlag: 'Offline · {size}',
-      relayBadge: 'Not mirrored · >2 GiB',
       relayDownload: 'Official',
       relayAria: 'Download {file} from the official source',
       relayMissing: 'Missing',
@@ -204,9 +200,9 @@
       verifyLinuxCmd: 'sha256sum <file>',
       verifyWinCmd: 'Get-FileHash .\\<file> -Algorithm SHA256',
       aboutTitle: 'About this mirror',
-      about1: 'The manifest is produced manually by the maintainer; there is no automatic update, so versions may lag behind the official source.',
-      about2: 'Download links point to fixed-version assets in GitHub Releases and are not proxied by a third party.',
-      about3: 'GitHub limits each asset to under 2 GiB. Oversized installers are not mirrored; they link to the official source via a relay, while near-limit files are validated before publishing.',
+      about1: 'A scheduled job syncs the latest official versions automatically; no manual publishing is needed.',
+      about2: 'Every download link points directly at downloads.claude.ai; this site does not host installers.',
+      about3: 'The GitHub repository only hosts this static index page; installers always come from the official source.',
       footerLinks: 'Related links',
       footerDisclaimer: 'Unofficial mirror · Prefer the official source.',
       footerRepo: 'GitHub',
@@ -278,10 +274,6 @@
     } catch (error) {
       return null;
     }
-  }
-
-  function isMirroredArtifact(artifact) {
-    return !(isObject(artifact) && artifact.mirrored === false);
   }
 
   function isStandaloneBinary(artifact) {
@@ -503,11 +495,10 @@
     var arch = readText(artifact.arch);
     var variant = readText(artifact.variant);
     var offline = isOffline(artifact);
-    var mirrored = isMirroredArtifact(artifact);
     var binary = isStandaloneBinary(artifact);
-    if (!mirrored) row.classList.add('artifact-row-relay');
-    var size = Number(artifact.size);
-    var hasSize = isFinite(size) && size >= 0;
+    var rawSize = artifact.size;
+    var size = Number(rawSize);
+    var hasSize = rawSize !== null && rawSize !== undefined && isFinite(size) && size >= 0;
 
     var idCell = el('div', 'artifact-id');
     var fileName = el('span', 'artifact-file t-code');
@@ -516,19 +507,14 @@
     idCell.appendChild(fileName);
 
     var badges = el('div', 'badges');
-    if (!mirrored) {
-      if (arch) badges.appendChild(createBadge(arch));
-      badges.appendChild(createBadge(t('relayBadge'), 'badge-warn'));
-    } else if (binary) {
+    if (arch) badges.appendChild(createBadge(arch));
+    if (binary) {
       badges.appendChild(createBadge(t('linuxBinaryLabel'), 'badge-accent'));
-    } else {
-      if (arch) badges.appendChild(createBadge(arch));
-      if (offline) {
-        var flag = hasSize ? t('offlineFlag', { size: formatBytes(size) }) : t('variantOffline');
-        badges.appendChild(createBadge(flag, 'badge-warn'));
-      } else if (variant) {
-        badges.appendChild(createBadge(localizeVariant(variant)));
-      }
+    } else if (offline) {
+      var flag = hasSize ? t('offlineFlag', { size: formatBytes(size) }) : t('variantOffline');
+      badges.appendChild(createBadge(flag, 'badge-warn'));
+    } else if (variant) {
+      badges.appendChild(createBadge(localizeVariant(variant)));
     }
     if (badges.childElementCount) idCell.appendChild(badges);
 
@@ -545,25 +531,19 @@
       sizeCell.appendChild(unknownSize);
     }
 
-    var official = safeHttpsUrl(artifact.source_url);
-
+    var hash = readText(artifact.sha256);
     var hashCell = el('div', 'artifact-hash');
     hashCell.setAttribute('aria-label', t('hashHeader'));
-    if (mirrored) {
-      var hash = readText(artifact.sha256);
+    if (hash) {
       var copyButton = el('button', 'hash-btn');
       copyButton.type = 'button';
       copyButton.setAttribute('aria-label', t('copyAria', { file: file }));
-      if (hash) copyButton.title = hash;
+      copyButton.title = hash;
       copyButton.appendChild(icon('icon-copy'));
       copyButton.appendChild(icon('icon-check'));
-      if (hash) {
-        copyButton.addEventListener('click', function () {
-          handleCopy(copyButton, hash, file);
-        });
-      } else {
-        copyButton.disabled = true;
-      }
+      copyButton.addEventListener('click', function () {
+        handleCopy(copyButton, hash, file);
+      });
       hashCell.appendChild(copyButton);
     } else {
       hashCell.setAttribute('aria-label', t('relayNoHashAria'));
@@ -572,57 +552,26 @@
       hashCell.appendChild(relayNote);
     }
 
+    var official = safeHttpsUrl(artifact.source_url);
+    var direct = safeHttpsUrl(artifact.relay_url) || official;
+
     var actionCell = el('div', 'artifact-action');
-    if (!mirrored) {
-      var relay = safeRelayUrl(artifact.relay_url) || official;
-      if (relay) {
-        var relayLink = el('a', 'btn btn-relay relay-btn');
-        relayLink.href = relay;
-        relayLink.target = '_blank';
-        relayLink.rel = 'noopener noreferrer';
-        relayLink.setAttribute('aria-label', t('relayAria', { file: file }));
-        relayLink.appendChild(icon('icon-external'));
-        var relayLabel = el('span');
-        relayLabel.textContent = t('relayDownload');
-        relayLink.appendChild(relayLabel);
-        actionCell.appendChild(relayLink);
-      } else {
-        var relayMissing = el('span', 'btn btn-relay relay-btn is-disabled');
-        relayMissing.setAttribute('aria-disabled', 'true');
-        relayMissing.textContent = t('relayMissing');
-        actionCell.appendChild(relayMissing);
-      }
+    if (direct) {
+      var officialLink = el('a', 'btn btn-primary official-btn');
+      officialLink.href = direct;
+      officialLink.target = '_blank';
+      officialLink.rel = 'noopener noreferrer';
+      officialLink.setAttribute('aria-label', t('officialAria', { file: file }));
+      officialLink.appendChild(icon('icon-external'));
+      var officialLabel = el('span');
+      officialLabel.textContent = t('officialShort');
+      officialLink.appendChild(officialLabel);
+      actionCell.appendChild(officialLink);
     } else {
-      var download = safeHttpsUrl(artifact.download_url);
-      if (download) {
-        var downloadLink = el('a', 'btn btn-primary download-btn');
-        downloadLink.href = download;
-        downloadLink.target = '_blank';
-        downloadLink.rel = 'noopener noreferrer';
-        downloadLink.setAttribute('aria-label', t('downloadAria', { file: file }));
-        downloadLink.appendChild(icon('icon-download'));
-        var downloadLabel = el('span');
-        downloadLabel.textContent = t('download');
-        downloadLink.appendChild(downloadLabel);
-        actionCell.appendChild(downloadLink);
-      } else {
-        var missing = el('span', 'btn btn-primary download-btn is-disabled');
-        missing.setAttribute('aria-disabled', 'true');
-        missing.textContent = t('missingLink');
-        actionCell.appendChild(missing);
-      }
-      if (official) {
-        var officialLink = el('a', 'btn btn-official official-btn');
-        officialLink.href = official;
-        officialLink.target = '_blank';
-        officialLink.rel = 'noopener noreferrer';
-        officialLink.setAttribute('aria-label', t('officialAria', { file: file }));
-        officialLink.appendChild(icon('icon-external'));
-        var officialLabel = el('span');
-        officialLabel.textContent = t('officialShort');
-        officialLink.appendChild(officialLabel);
-        actionCell.appendChild(officialLink);
-      }
+      var missing = el('span', 'btn btn-primary official-btn is-disabled');
+      missing.setAttribute('aria-disabled', 'true');
+      missing.textContent = t('missingLink');
+      actionCell.appendChild(missing);
     }
 
     row.appendChild(idCell);
@@ -795,28 +744,21 @@
   }
 
   function countArtifacts(product) {
-    var counts = { mirrored: 0, relay: 0, mirroredSize: 0, relaySize: 0, hasMirroredSize: false };
+    var counts = { total: 0, size: 0, hasSize: false };
     productArtifacts(product).forEach(function (artifact) {
-      var size = Number(artifact.size);
-      var hasSize = isFinite(size) && size >= 0;
-      if (isMirroredArtifact(artifact)) {
-        counts.mirrored += 1;
-        if (hasSize) {
-          counts.mirroredSize += size;
-          counts.hasMirroredSize = true;
-        }
-      } else {
-        counts.relay += 1;
-        if (hasSize) counts.relaySize += size;
+      counts.total += 1;
+      var raw = artifact.size;
+      var size = Number(raw);
+      if (raw !== null && raw !== undefined && isFinite(size) && size >= 0) {
+        counts.size += size;
+        counts.hasSize = true;
       }
     });
     return counts;
   }
 
   function productMetaText(counts, key) {
-    var text = t(key, { n: counts.mirrored });
-    if (counts.relay) text += ' · ' + t('relayCountShort', { n: counts.relay });
-    return text;
+    return t(key, { n: counts.total }) + ' · ' + t('officialShort');
   }
 
   function renderStats(products, desktop, science, code) {
@@ -839,25 +781,21 @@
       ? productMetaText(codeCounts, 'statCodeMeta')
       : t('notInManifest');
 
-    var totalMirrored = 0;
-    var totalRelay = 0;
+    var totalCount = 0;
     var totalSize = 0;
     var hasSize = false;
     products.forEach(function (product) {
       var counts = countArtifacts(product);
-      totalMirrored += counts.mirrored;
-      totalRelay += counts.relay;
-      totalSize += counts.mirroredSize;
-      if (counts.hasMirroredSize) hasSize = true;
+      totalCount += counts.total;
+      totalSize += counts.size;
+      if (counts.hasSize) hasSize = true;
     });
 
     var sizeNode = $('#stat-size');
     sizeNode.textContent = hasSize ? formatBytes(totalSize) : '—';
-    sizeNode.title = hasSize ? exactBytes(totalSize) + ' (mirrored)' : '';
+    sizeNode.title = hasSize ? exactBytes(totalSize) : '';
     $('#stat-size-meta').textContent = hasSize
-      ? (totalRelay
-        ? t('statSizeBreakdown', { n: totalMirrored, r: totalRelay })
-        : t('statSizeSimple', { n: totalMirrored }))
+      ? t('statSizeMetaCount', { n: totalCount })
       : t('statSizeMeta');
   }
 
