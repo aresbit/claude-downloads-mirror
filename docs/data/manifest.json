@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-12T23:42:34Z",
+  "generated_at": "2026-11-13T06:56:32Z",
   "mirror": {
     "owner": "aresbit",
     "repo": "claude-downloads-mirror",
@@ -11,164 +11,164 @@
     {
       "id": "claude-desktop",
       "name": "Claude Desktop",
-      "version": "5.11492.0",
-      "tag": "desktop-v5.11492.0",
+      "version": "5.11492.2",
+      "tag": "desktop-v5.11492.2",
       "artifacts": [
         {
           "id": "macos-universal",
           "os": "macOS",
           "arch": "Universal",
           "variant": "Installer",
-          "file": "Claude-Desktop-5.11492.0-macOS-universal.dmg",
-          "size": 387404543,
+          "file": "Claude-Desktop-5.11492.2-macOS-universal.dmg",
+          "size": 387399440,
           "mirrored": false,
           "download_url": null,
-          "relay_url": "https://downloads.claude.ai/releases/darwin/universal/5.11492.0/Claude-ce4f8dd2e25346b37909530556abd6e2e7b00206.dmg",
-          "source_url": "https://downloads.claude.ai/releases/darwin/universal/5.11492.0/Claude-ce4f8dd2e25346b37909530556abd6e2e7b00206.dmg"
+          "relay_url": "https://downloads.claude.ai/releases/darwin/universal/5.11492.2/Claude-b1edc63367ca6fb5fa8d5a72604951a71b37dd58.dmg",
+          "source_url": "https://downloads.claude.ai/releases/darwin/universal/5.11492.2/Claude-b1edc63367ca6fb5fa8d5a72604951a71b37dd58.dmg"
         },
         {
           "id": "macos-intel-offline",
           "os": "macOS",
           "arch": "Intel",
           "variant": "Offline Installer",
-          "file": "Claude-Desktop-5.11492.0-macOS-intel-offline.dmg",
-          "size": 2243263688,
+          "file": "Claude-Desktop-5.11492.2-macOS-intel-offline.dmg",
+          "size": 2243264836,
           "mirrored": false,
           "download_url": null,
-          "relay_url": "https://downloads.claude.ai/releases-offline/darwin/x64/5.11492.0/Claude-ce4f8dd2e25346b37909530556abd6e2e7b00206-offline.dmg",
-          "source_url": "https://downloads.claude.ai/releases-offline/darwin/x64/5.11492.0/Claude-ce4f8dd2e25346b37909530556abd6e2e7b00206-offline.dmg"
+          "relay_url": "https://downloads.claude.ai/releases-offline/darwin/x64/5.11492.2/Claude-b1edc63367ca6fb5fa8d5a72604951a71b37dd58-offline.dmg",
+          "source_url": "https://downloads.claude.ai/releases-offline/darwin/x64/5.11492.2/Claude-b1edc63367ca6fb5fa8d5a72604951a71b37dd58-offline.dmg"
         },
         {
           "id": "macos-apple-silicon-offline",
           "os": "macOS",
           "arch": "Apple Silicon",
           "variant": "Offline Installer",
-          "file": "Claude-Desktop-5.11492.0-macOS-apple-silicon-offline.dmg",
-          "size": 2162696949,
+          "file": "Claude-Desktop-5.11492.2-macOS-apple-silicon-offline.dmg",
+          "size": 2162694305,
           "mirrored": false,
           "download_url": null,
-          "relay_url": "https://downloads.claude.ai/releases-offline/darwin/arm64/5.11492.0/Claude-ce4f8dd2e25346b37909530556abd6e2e7b00206-offline.dmg",
-          "source_url": "https://downloads.claude.ai/releases-offline/darwin/arm64/5.11492.0/Claude-ce4f8dd2e25346b37909530556abd6e2e7b00206-offline.dmg"
+          "relay_url": "https://downloads.claude.ai/releases-offline/darwin/arm64/5.11492.2/Claude-b1edc63367ca6fb5fa8d5a72604951a71b37dd58-offline.dmg",
+          "source_url": "https://downloads.claude.ai/releases-offline/darwin/arm64/5.11492.2/Claude-b1edc63367ca6fb5fa8d5a72604951a71b37dd58-offline.dmg"
         },
         {
           "id": "windows-x64-setup",
           "os": "Windows",
           "arch": "x64",
           "variant": "Online Installer",
-          "file": "Claude-Desktop-5.11492.0-Windows-x64-setup.exe",
+          "file": "Claude-Desktop-5.11492.2-Windows-x64-setup.exe",
           "size": 7512224,
           "mirrored": false,
           "download_url": null,
-          "relay_url": "https://downloads.claude.ai/releases/win32/x64/5.11492.0/ClaudeSetup-ce4f8dd2e25346b37909530556abd6e2e7b00206.exe",
-          "source_url": "https://downloads.claude.ai/releases/win32/x64/5.11492.0/ClaudeSetup-ce4f8dd2e25346b37909530556abd6e2e7b00206.exe"
+          "relay_url": "https://downloads.claude.ai/releases/win32/x64/5.11492.2/ClaudeSetup-b1edc63367ca6fb5fa8d5a72604951a71b37dd58.exe",
+          "source_url": "https://downloads.claude.ai/releases/win32/x64/5.11492.2/ClaudeSetup-b1edc63367ca6fb5fa8d5a72604951a71b37dd58.exe"
         },
         {
           "id": "windows-arm64-setup",
           "os": "Windows",
           "arch": "arm64",
           "variant": "Online Installer",
-          "file": "Claude-Desktop-5.11492.0-Windows-arm64-setup.exe",
+          "file": "Claude-Desktop-5.11492.2-Windows-arm64-setup.exe",
           "size": 6900384,
           "mirrored": false,
           "download_url": null,
-          "relay_url": "https://downloads.claude.ai/releases/win32/arm64/5.11492.0/ClaudeSetup-ce4f8dd2e25346b37909530556abd6e2e7b00206.exe",
-          "source_url": "https://downloads.claude.ai/releases/win32/arm64/5.11492.0/ClaudeSetup-ce4f8dd2e25346b37909530556abd6e2e7b00206.exe"
+          "relay_url": "https://downloads.claude.ai/releases/win32/arm64/5.11492.2/ClaudeSetup-b1edc63367ca6fb5fa8d5a72604951a71b37dd58.exe",
+          "source_url": "https://downloads.claude.ai/releases/win32/arm64/5.11492.2/ClaudeSetup-b1edc63367ca6fb5fa8d5a72604951a71b37dd58.exe"
         },
         {
           "id": "windows-x64-exe",
           "os": "Windows",
           "arch": "x64",
           "variant": "Installer",
-          "file": "Claude-Desktop-5.11492.0-Windows-x64.exe",
-          "size": 267214496,
+          "file": "Claude-Desktop-5.11492.2-Windows-x64.exe",
+          "size": 267245728,
           "mirrored": false,
           "download_url": null,
-          "relay_url": "https://downloads.claude.ai/releases/win32/x64/5.11492.0/Claude-ce4f8dd2e25346b37909530556abd6e2e7b00206.exe",
-          "source_url": "https://downloads.claude.ai/releases/win32/x64/5.11492.0/Claude-ce4f8dd2e25346b37909530556abd6e2e7b00206.exe"
+          "relay_url": "https://downloads.claude.ai/releases/win32/x64/5.11492.2/Claude-b1edc63367ca6fb5fa8d5a72604951a71b37dd58.exe",
+          "source_url": "https://downloads.claude.ai/releases/win32/x64/5.11492.2/Claude-b1edc63367ca6fb5fa8d5a72604951a71b37dd58.exe"
         },
         {
           "id": "windows-arm64-exe",
           "os": "Windows",
           "arch": "arm64",
           "variant": "Installer",
-          "file": "Claude-Desktop-5.11492.0-Windows-arm64.exe",
-          "size": 260724384,
+          "file": "Claude-Desktop-5.11492.2-Windows-arm64.exe",
+          "size": 260752032,
           "mirrored": false,
           "download_url": null,
-          "relay_url": "https://downloads.claude.ai/releases/win32/arm64/5.11492.0/Claude-ce4f8dd2e25346b37909530556abd6e2e7b00206.exe",
-          "source_url": "https://downloads.claude.ai/releases/win32/arm64/5.11492.0/Claude-ce4f8dd2e25346b37909530556abd6e2e7b00206.exe"
+          "relay_url": "https://downloads.claude.ai/releases/win32/arm64/5.11492.2/Claude-b1edc63367ca6fb5fa8d5a72604951a71b37dd58.exe",
+          "source_url": "https://downloads.claude.ai/releases/win32/arm64/5.11492.2/Claude-b1edc63367ca6fb5fa8d5a72604951a71b37dd58.exe"
         },
         {
           "id": "windows-x64-msix",
           "os": "Windows",
           "arch": "x64",
           "variant": "MSIX",
-          "file": "Claude-Desktop-5.11492.0-Windows-x64.msix",
-          "size": 299252212,
+          "file": "Claude-Desktop-5.11492.2-Windows-x64.msix",
+          "size": 299275514,
           "mirrored": false,
           "download_url": null,
-          "relay_url": "https://downloads.claude.ai/releases/win32/x64/5.11492.0/Claude-ce4f8dd2e25346b37909530556abd6e2e7b00206.msix",
-          "source_url": "https://downloads.claude.ai/releases/win32/x64/5.11492.0/Claude-ce4f8dd2e25346b37909530556abd6e2e7b00206.msix"
+          "relay_url": "https://downloads.claude.ai/releases/win32/x64/5.11492.2/Claude-b1edc63367ca6fb5fa8d5a72604951a71b37dd58.msix",
+          "source_url": "https://downloads.claude.ai/releases/win32/x64/5.11492.2/Claude-b1edc63367ca6fb5fa8d5a72604951a71b37dd58.msix"
         },
         {
           "id": "windows-arm64-msix",
           "os": "Windows",
           "arch": "arm64",
           "variant": "MSIX",
-          "file": "Claude-Desktop-5.11492.0-Windows-arm64.msix",
-          "size": 291688564,
+          "file": "Claude-Desktop-5.11492.2-Windows-arm64.msix",
+          "size": 291714473,
           "mirrored": false,
           "download_url": null,
-          "relay_url": "https://downloads.claude.ai/releases/win32/arm64/5.11492.0/Claude-ce4f8dd2e25346b37909530556abd6e2e7b00206.msix",
-          "source_url": "https://downloads.claude.ai/releases/win32/arm64/5.11492.0/Claude-ce4f8dd2e25346b37909530556abd6e2e7b00206.msix"
+          "relay_url": "https://downloads.claude.ai/releases/win32/arm64/5.11492.2/Claude-b1edc63367ca6fb5fa8d5a72604951a71b37dd58.msix",
+          "source_url": "https://downloads.claude.ai/releases/win32/arm64/5.11492.2/Claude-b1edc63367ca6fb5fa8d5a72604951a71b37dd58.msix"
         },
         {
           "id": "windows-x64-offline",
           "os": "Windows",
           "arch": "x64",
           "variant": "Offline MSIX",
-          "file": "Claude-Desktop-5.11492.0-Windows-x64-offline.msix",
-          "size": 2430134743,
+          "file": "Claude-Desktop-5.11492.2-Windows-x64-offline.msix",
+          "size": 2430175587,
           "mirrored": false,
           "download_url": null,
-          "relay_url": "https://downloads.claude.ai/releases-offline/win32/x64/5.11492.0/Claude-ce4f8dd2e25346b37909530556abd6e2e7b00206-offline.msix",
-          "source_url": "https://downloads.claude.ai/releases-offline/win32/x64/5.11492.0/Claude-ce4f8dd2e25346b37909530556abd6e2e7b00206-offline.msix"
+          "relay_url": "https://downloads.claude.ai/releases-offline/win32/x64/5.11492.2/Claude-b1edc63367ca6fb5fa8d5a72604951a71b37dd58-offline.msix",
+          "source_url": "https://downloads.claude.ai/releases-offline/win32/x64/5.11492.2/Claude-b1edc63367ca6fb5fa8d5a72604951a71b37dd58-offline.msix"
         },
         {
           "id": "windows-arm64-offline",
           "os": "Windows",
           "arch": "arm64",
           "variant": "Offline MSIX",
-          "file": "Claude-Desktop-5.11492.0-Windows-arm64-offline.msix",
-          "size": 2347115780,
+          "file": "Claude-Desktop-5.11492.2-Windows-arm64-offline.msix",
+          "size": 2347142724,
           "mirrored": false,
           "download_url": null,
-          "relay_url": "https://downloads.claude.ai/releases-offline/win32/arm64/5.11492.0/Claude-ce4f8dd2e25346b37909530556abd6e2e7b00206-offline.msix",
-          "source_url": "https://downloads.claude.ai/releases-offline/win32/arm64/5.11492.0/Claude-ce4f8dd2e25346b37909530556abd6e2e7b00206-offline.msix"
+          "relay_url": "https://downloads.claude.ai/releases-offline/win32/arm64/5.11492.2/Claude-b1edc63367ca6fb5fa8d5a72604951a71b37dd58-offline.msix",
+          "source_url": "https://downloads.claude.ai/releases-offline/win32/arm64/5.11492.2/Claude-b1edc63367ca6fb5fa8d5a72604951a71b37dd58-offline.msix"
         },
         {
           "id": "linux-x64-deb",
           "os": "Linux",
           "arch": "x64",
           "variant": "Debian Package",
-          "file": "Claude-Desktop-5.11492.0-Linux-x64.deb",
-          "size": 183398108,
+          "file": "Claude-Desktop-5.11492.2-Linux-x64.deb",
+          "size": 183330856,
           "mirrored": false,
           "download_url": null,
-          "relay_url": "https://downloads.claude.ai/releases/linux/x64/5.11492.0/Claude-ce4f8dd2e25346b37909530556abd6e2e7b00206.deb",
-          "source_url": "https://downloads.claude.ai/releases/linux/x64/5.11492.0/Claude-ce4f8dd2e25346b37909530556abd6e2e7b00206.deb"
+          "relay_url": "https://downloads.claude.ai/releases/linux/x64/5.11492.2/Claude-b1edc63367ca6fb5fa8d5a72604951a71b37dd58.deb",
+          "source_url": "https://downloads.claude.ai/releases/linux/x64/5.11492.2/Claude-b1edc63367ca6fb5fa8d5a72604951a71b37dd58.deb"
         },
         {
           "id": "linux-arm64-deb",
           "os": "Linux",
           "arch": "arm64",
           "variant": "Debian Package",
-          "file": "Claude-Desktop-5.11492.0-Linux-arm64.deb",
-          "size": 175763624,
+          "file": "Claude-Desktop-5.11492.2-Linux-arm64.deb",
+          "size": 175783688,
           "mirrored": false,
           "download_url": null,
-          "relay_url": "https://downloads.claude.ai/releases/linux/arm64/5.11492.0/Claude-ce4f8dd2e25346b37909530556abd6e2e7b00206.deb",
-          "source_url": "https://downloads.claude.ai/releases/linux/arm64/5.11492.0/Claude-ce4f8dd2e25346b37909530556abd6e2e7b00206.deb"
+          "relay_url": "https://downloads.claude.ai/releases/linux/arm64/5.11492.2/Claude-b1edc63367ca6fb5fa8d5a72604951a71b37dd58.deb",
+          "source_url": "https://downloads.claude.ai/releases/linux/arm64/5.11492.2/Claude-b1edc63367ca6fb5fa8d5a72604951a71b37dd58.deb"
         }
       ]
     },
