@@ -1,6 +1,6 @@
 window.MIRROR_MANIFEST = {
   "schema_version": 1,
-  "generated_at": "2026-11-24T00:02:43Z",
+  "generated_at": "2026-11-25T08:50:26Z",
   "mirror": {
     "owner": "aresbit",
     "repo": "claude-downloads-mirror",
@@ -175,185 +175,185 @@ window.MIRROR_MANIFEST = {
     {
       "id": "claude-science",
       "name": "Claude Science",
-      "version": "0.1.73",
-      "tag": "science-v0.1.73",
+      "version": "0.1.75",
+      "tag": "science-v0.1.75",
       "artifacts": [
         {
           "id": "science-macos-apple-silicon",
           "os": "macOS",
           "arch": "Apple Silicon",
           "variant": "Installer",
-          "file": "Claude-Science-0.1.73-macOS-apple-silicon.dmg",
-          "size": 87871760,
+          "file": "Claude-Science-0.1.75-macOS-apple-silicon.dmg",
+          "size": 88102681,
           "mirrored": false,
           "download_url": null,
-          "relay_url": "https://downloads.claude.ai/claude-science/0.1.73/mac-arm64.dmg",
-          "source_url": "https://downloads.claude.ai/claude-science/0.1.73/mac-arm64.dmg",
-          "sha256": "870ba0ab286eb9913e4f50a5176964183569c09e9c578da9374fd50c48d99795"
+          "relay_url": "https://downloads.claude.ai/claude-science/0.1.75/mac-arm64.dmg",
+          "source_url": "https://downloads.claude.ai/claude-science/0.1.75/mac-arm64.dmg",
+          "sha256": "c17d75501dda02d777b332dd31c205d2401d6c13a77bc1a2fbce4b5b2bfcdd0b"
         },
         {
           "id": "science-macos-intel",
           "os": "macOS",
           "arch": "Intel",
           "variant": "Installer",
-          "file": "Claude-Science-0.1.73-macOS-intel.dmg",
-          "size": 92378387,
+          "file": "Claude-Science-0.1.75-macOS-intel.dmg",
+          "size": 92609583,
           "mirrored": false,
           "download_url": null,
-          "relay_url": "https://downloads.claude.ai/claude-science/0.1.73/mac-x64.dmg",
-          "source_url": "https://downloads.claude.ai/claude-science/0.1.73/mac-x64.dmg",
-          "sha256": "8b0c0ee9cce41ccfe586cb11bd5da08ed46c12859d3af25377dcc4e23a278abd"
+          "relay_url": "https://downloads.claude.ai/claude-science/0.1.75/mac-x64.dmg",
+          "source_url": "https://downloads.claude.ai/claude-science/0.1.75/mac-x64.dmg",
+          "sha256": "5f3849aaaff2636956f7f30ba1f0223a3772b8506d5a248e4f421b92965fc821"
         },
         {
           "id": "science-windows-x64",
           "os": "Windows",
           "arch": "x64",
           "variant": "Installer",
-          "file": "Claude-Science-0.1.73-Windows-x64.exe",
-          "size": 189882016,
+          "file": "Claude-Science-0.1.75-Windows-x64.exe",
+          "size": 190313120,
           "mirrored": false,
           "download_url": null,
-          "relay_url": "https://downloads.claude.ai/claude-science/0.1.73/windows-x64.exe",
-          "source_url": "https://downloads.claude.ai/claude-science/0.1.73/windows-x64.exe",
-          "sha256": "379f32a019393d95800166da6151c8c1cc84881a22a6fcbc207e2cf3e19d2b99"
+          "relay_url": "https://downloads.claude.ai/claude-science/0.1.75/windows-x64.exe",
+          "source_url": "https://downloads.claude.ai/claude-science/0.1.75/windows-x64.exe",
+          "sha256": "e3a051375ab5613f054e51710fe9a27e96dc54023f099575e7b121e4686d5697"
         },
         {
           "id": "science-windows-arm64",
           "os": "Windows",
           "arch": "arm64",
           "variant": "Installer",
-          "file": "Claude-Science-0.1.73-Windows-arm64.exe",
-          "size": 173750432,
+          "file": "Claude-Science-0.1.75-Windows-arm64.exe",
+          "size": 174181024,
           "mirrored": false,
           "download_url": null,
-          "relay_url": "https://downloads.claude.ai/claude-science/0.1.73/windows-arm64.exe",
-          "source_url": "https://downloads.claude.ai/claude-science/0.1.73/windows-arm64.exe",
-          "sha256": "4eec7376ce5e49031ae1f1dea8c872b3a18d3e454a8e4ec3ec9446ed97dd7c59"
+          "relay_url": "https://downloads.claude.ai/claude-science/0.1.75/windows-arm64.exe",
+          "source_url": "https://downloads.claude.ai/claude-science/0.1.75/windows-arm64.exe",
+          "sha256": "fb484c5525a27775250b2c99c671dc57120088d91838aa2c089270947419ba1c"
         },
         {
           "id": "science-linux-x64",
           "os": "Linux",
           "arch": "x64",
           "variant": "Installer",
-          "file": "Claude-Science-0.1.73-Linux-x64",
-          "size": 169629872,
+          "file": "Claude-Science-0.1.75-Linux-x64",
+          "size": 170064048,
           "mirrored": false,
           "download_url": null,
-          "relay_url": "https://downloads.claude.ai/claude-science/0.1.73/linux-x64",
-          "source_url": "https://downloads.claude.ai/claude-science/0.1.73/linux-x64",
-          "sha256": "bfcaa8dc4b89cdf3397a4cbf7d25db685b82876c179990b623d4fa0320f9b082"
+          "relay_url": "https://downloads.claude.ai/claude-science/0.1.75/linux-x64",
+          "source_url": "https://downloads.claude.ai/claude-science/0.1.75/linux-x64",
+          "sha256": "621c78a5b55dfcaa7ed66fe1b7f2fc6990157467561fc16cfcf475433913e094"
         }
       ]
     },
     {
       "id": "claude-code",
       "name": "Claude Code",
-      "version": "2.1.331",
-      "tag": "code-v2.1.331",
+      "version": "2.1.332",
+      "tag": "code-v2.1.332",
       "artifacts": [
         {
           "id": "code-macos-apple-silicon",
           "os": "macOS",
           "arch": "Apple Silicon",
           "variant": "Binary",
-          "file": "Claude-Code-2.1.331-macOS-arm64",
-          "size": 381464176,
+          "file": "Claude-Code-2.1.332-macOS-arm64",
+          "size": 383795280,
           "mirrored": false,
           "download_url": null,
-          "relay_url": "https://downloads.claude.ai/claude-code-releases/2.1.331/darwin-arm64/claude",
-          "source_url": "https://downloads.claude.ai/claude-code-releases/2.1.331/darwin-arm64/claude",
-          "sha256": "4874591dc39bff1188921b82cbeb8a44e3a33b0f92c888b3d43639b9344101f7"
+          "relay_url": "https://downloads.claude.ai/claude-code-releases/2.1.332/darwin-arm64/claude",
+          "source_url": "https://downloads.claude.ai/claude-code-releases/2.1.332/darwin-arm64/claude",
+          "sha256": "5b8214f8f082f3187420b27b4063b9b4f4d9412cd66ea436d6d1966ad582700f"
         },
         {
           "id": "code-macos-intel",
           "os": "macOS",
           "arch": "Intel",
           "variant": "Binary",
-          "file": "Claude-Code-2.1.331-macOS-intel",
-          "size": 396717152,
+          "file": "Claude-Code-2.1.332-macOS-intel",
+          "size": 397278064,
           "mirrored": false,
           "download_url": null,
-          "relay_url": "https://downloads.claude.ai/claude-code-releases/2.1.331/darwin-x64/claude",
-          "source_url": "https://downloads.claude.ai/claude-code-releases/2.1.331/darwin-x64/claude",
-          "sha256": "b5248771cfdcdb2907f7382b748590c976439daffb4bb1f32f2888fc12a06eba"
+          "relay_url": "https://downloads.claude.ai/claude-code-releases/2.1.332/darwin-x64/claude",
+          "source_url": "https://downloads.claude.ai/claude-code-releases/2.1.332/darwin-x64/claude",
+          "sha256": "3ceb285194091d45b150561ac5d58ab5a58cddcdc6d086f883039a652c037cfa"
         },
         {
           "id": "code-windows-x64",
           "os": "Windows",
           "arch": "x64",
           "variant": "Binary",
-          "file": "Claude-Code-2.1.331-Windows-x64.exe",
-          "size": 405798560,
+          "file": "Claude-Code-2.1.332-Windows-x64.exe",
+          "size": 403083424,
           "mirrored": false,
           "download_url": null,
-          "relay_url": "https://downloads.claude.ai/claude-code-releases/2.1.331/win32-x64/claude.exe",
-          "source_url": "https://downloads.claude.ai/claude-code-releases/2.1.331/win32-x64/claude.exe",
-          "sha256": "db6a1c2506ce797e842028fb75f38f023a712ccbf9322497652510f0a179c806"
+          "relay_url": "https://downloads.claude.ai/claude-code-releases/2.1.332/win32-x64/claude.exe",
+          "source_url": "https://downloads.claude.ai/claude-code-releases/2.1.332/win32-x64/claude.exe",
+          "sha256": "e6652f9170a07df45f1db3e0520f1df0f7b385181ff74f70f49398a67b5fd320"
         },
         {
           "id": "code-windows-arm64",
           "os": "Windows",
           "arch": "arm64",
           "variant": "Binary",
-          "file": "Claude-Code-2.1.331-Windows-arm64.exe",
-          "size": 386963616,
+          "file": "Claude-Code-2.1.332-Windows-arm64.exe",
+          "size": 389167264,
           "mirrored": false,
           "download_url": null,
-          "relay_url": "https://downloads.claude.ai/claude-code-releases/2.1.331/win32-arm64/claude.exe",
-          "source_url": "https://downloads.claude.ai/claude-code-releases/2.1.331/win32-arm64/claude.exe",
-          "sha256": "8a59cf84fa7a7c1444de97b7d2cfe4f5b36b5fca856258973d0f8321264b0c1a"
+          "relay_url": "https://downloads.claude.ai/claude-code-releases/2.1.332/win32-arm64/claude.exe",
+          "source_url": "https://downloads.claude.ai/claude-code-releases/2.1.332/win32-arm64/claude.exe",
+          "sha256": "3e5f5a60279364592f2be7b35a7812f8474e5c8ac809203ceb0a4b12bcd02f32"
         },
         {
           "id": "code-linux-x64",
           "os": "Linux",
           "arch": "x64",
           "variant": "Binary",
-          "file": "Claude-Code-2.1.331-Linux-x64",
-          "size": 398622992,
+          "file": "Claude-Code-2.1.332-Linux-x64",
+          "size": 402325736,
           "mirrored": false,
           "download_url": null,
-          "relay_url": "https://downloads.claude.ai/claude-code-releases/2.1.331/linux-x64/claude",
-          "source_url": "https://downloads.claude.ai/claude-code-releases/2.1.331/linux-x64/claude",
-          "sha256": "4c00839cf46beb2b38ec310105f2d538f7f9321fe46c636299b74bcab94626b1"
+          "relay_url": "https://downloads.claude.ai/claude-code-releases/2.1.332/linux-x64/claude",
+          "source_url": "https://downloads.claude.ai/claude-code-releases/2.1.332/linux-x64/claude",
+          "sha256": "a2df1f41bb00250992926420d0063f89b127cb81abdd284dbefb80c50ff1d026"
         },
         {
           "id": "code-linux-x64-musl",
           "os": "Linux",
           "arch": "x64 (musl)",
           "variant": "Binary",
-          "file": "Claude-Code-2.1.331-Linux-x64-musl",
-          "size": 383247112,
+          "file": "Claude-Code-2.1.332-Linux-x64-musl",
+          "size": 386855640,
           "mirrored": false,
           "download_url": null,
-          "relay_url": "https://downloads.claude.ai/claude-code-releases/2.1.331/linux-x64-musl/claude",
-          "source_url": "https://downloads.claude.ai/claude-code-releases/2.1.331/linux-x64-musl/claude",
-          "sha256": "731c86a34566a159eafcf612ecbf2263f70e46519919dd078a0b6fda0d0241a9"
+          "relay_url": "https://downloads.claude.ai/claude-code-releases/2.1.332/linux-x64-musl/claude",
+          "source_url": "https://downloads.claude.ai/claude-code-releases/2.1.332/linux-x64-musl/claude",
+          "sha256": "81f466623d672aed9504ad29b8bb2f240b24f3cc05c255054649250720a1900f"
         },
         {
           "id": "code-linux-arm64",
           "os": "Linux",
           "arch": "arm64",
           "variant": "Binary",
-          "file": "Claude-Code-2.1.331-Linux-arm64",
-          "size": 397534392,
+          "file": "Claude-Code-2.1.332-Linux-arm64",
+          "size": 385475840,
           "mirrored": false,
           "download_url": null,
-          "relay_url": "https://downloads.claude.ai/claude-code-releases/2.1.331/linux-arm64/claude",
-          "source_url": "https://downloads.claude.ai/claude-code-releases/2.1.331/linux-arm64/claude",
-          "sha256": "3e5afea76cf6ed53f42076d8b175c4ee3d9ab34cd9b90452da115d21ad0d5d31"
+          "relay_url": "https://downloads.claude.ai/claude-code-releases/2.1.332/linux-arm64/claude",
+          "source_url": "https://downloads.claude.ai/claude-code-releases/2.1.332/linux-arm64/claude",
+          "sha256": "50c305fcb8912851ce774429131d94ed6f84edbe3d8d0ed7a59dade5d893acc0"
         },
         {
           "id": "code-linux-arm64-musl",
           "os": "Linux",
           "arch": "arm64 (musl)",
           "variant": "Binary",
-          "file": "Claude-Code-2.1.331-Linux-arm64-musl",
-          "size": 380261080,
+          "file": "Claude-Code-2.1.332-Linux-arm64-musl",
+          "size": 373170864,
           "mirrored": false,
           "download_url": null,
-          "relay_url": "https://downloads.claude.ai/claude-code-releases/2.1.331/linux-arm64-musl/claude",
-          "source_url": "https://downloads.claude.ai/claude-code-releases/2.1.331/linux-arm64-musl/claude",
-          "sha256": "36bd0de0054eb2deff83d62b883e342a443aa3a82d030ec80dc7f9554df2a8d1"
+          "relay_url": "https://downloads.claude.ai/claude-code-releases/2.1.332/linux-arm64-musl/claude",
+          "source_url": "https://downloads.claude.ai/claude-code-releases/2.1.332/linux-arm64-musl/claude",
+          "sha256": "122dd3751257a9e769d8c08b19d16e45f3e86c43a09e18d7182fc01c81143246"
         }
       ]
     }
